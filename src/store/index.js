@@ -1,17 +1,22 @@
+// export default {
+// 	forms: [],
+// 	activeForm: [],
+// 	activeTabForFields: 'elements',
+// }
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-  },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
+	state: {
+		forms: [],
+		activeForm: [],
+		activeTabForFields: 'elements',
+	},
+	getters: {},
+	mutations: {},
+	actions: {},
+	modules: {},
 })

@@ -1,0 +1,89 @@
+@import '_fonts';
+
+:root {
+	--primary-bgcolor: #ecebf0;
+	--secondary-bgcolor: #f3f5f5;
+	--text-color: #181818;
+	--blue-color: #4684d8;
+	--primary-color: #4f4080;
+	--secondary-color: #ff746b;
+	--primary-dark-color: #2a2149;
+	--primary-light-color: #765bdf;
+	--success-color: #34af69;
+	--warning-color: #f7c947;
+	--error-color: #ff746b;
+}
+
+// fonts
+$font-family: 'SFProDisplay', sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 500;
+$font-weight-semibold: 600;
+$font-weight-heavy: 700;
+$font-height: 1.5;
+$font-size-small: 14px;
+$font-size-medium: 20px;
+$font-size-normal: 24px;
+
+// colors
+$dark-grey: #333447;
+$dark-gray: #333447;
+$dark-purple: #2a2149;
+$error-color: #ff746b;
+$dark-primary-color: #2a2149;
+$primary-color: #4f4080;
+$light-primary-color: #765bdf;
+$secondary-color: #ff746b;
+$black-color: #0f0f0f;
+$success-color: #34af69;
+$blue-color: #4684d8;
+$yellow-color: #f7c947;
+//text colors
+$text-color: #181818;
+$text-blue-color: #4683d8;
+$text-light-color: rgba(#181818, 0.5);
+$text-white-color: #ffffff;
+
+//background colors
+$primary-bgcolor: #ecebf0;
+$secondary-bgcolor: #f3f5f5;
+$auth-bgcolor: #e5e5e5;
+
+//shadows
+$soft-shadow: 1px 4px 10px rgba(0, 0, 0, 0.04);
+
+//opacity
+$small-opacity: 0.7;
+$four-opacity: 0.4;
+$soft-opacity: 0.2;
+$normal-opacity: 1;
+
+//borders
+$border-radius-tiny: 6px;
+$border-radius-small: 8px;
+$border-radius-medium: 12px;
+$border-radius-big: 20px;
+$border-radius-large: 30px;
+$primary-border: 1px solid rgba($black-color, 0.1);
+$primary-border-focus: 1px solid rgba($black-color, 0.3);
+
+//spacing
+$padding-ten: 10px;
+$padding-small: 0.5rem;
+$padding: 1rem;
+$padding-big: 2rem;
+$padding-large: 3.75rem;
+$margin-four: 4px;
+$margin-ten: 10px;
+$margin-twenty: 20px;
+$margin-thirty: 30px;
+$margin-tiny: 14px;
+$margin-small: 20px;
+$margin-normal: 24px;
+$margin-medium: 40px;
+$margin-big: 60px;
+$margin-huge: 80px;
+
+//sizes
+$navbar-height: 80px;
+$input-height: 42px;
