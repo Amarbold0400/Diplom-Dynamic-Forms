@@ -124,15 +124,13 @@
 						<div class="form__actiongroup">
 							<vs-button class="form__actionitem--move">Move</vs-button>
 
-							<vs-button-group>
-								<vs-button
-									@click="cloneElement(index, form)"
-									v-show="!form.isUnique"
-								>
-									Clone
-								</vs-button>
-								<vs-button @click="deleteElement(index)">Delete</vs-button>
-							</vs-button-group>
+							<vs-button
+								@click="cloneElement(index, form)"
+								v-show="!form.isUnique"
+							>
+								Clone
+							</vs-button>
+							<vs-button @click="deleteElement(index)">Delete</vs-button>
 						</div>
 					</div>
 				</draggable>

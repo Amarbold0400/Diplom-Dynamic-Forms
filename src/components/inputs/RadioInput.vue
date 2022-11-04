@@ -1,5 +1,14 @@
 <template>
-	<div style="color: white">this is the radio input</div>
+	<div>
+		<vs-radio
+			v-model="picked"
+			v-for="(item, index) in currentField.options"
+			:key="item.optionValue"
+			:val="item.optionLabel"
+		>
+			{{ item.optionValue }}
+		</vs-radio>
+	</div>
 </template>
 
 <script>

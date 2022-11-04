@@ -19,7 +19,7 @@ export const InputCreator = new Vue({
 		return {
 			fields: [
 				{
-					name: 'RadioButton',
+					name: 'RadioInput',
 					text: 'Radio',
 					group: 'form',
 					hasOptions: true,
@@ -46,18 +46,14 @@ export const InputCreator = new Vue({
 	},
 	methods: {
 		deleteElement(index) {
-			this.$store.state.activeForm = []
-			this.$store.state.activeTabForFields = 'elements'
-			this.$delete(vm.$store.forms, index)
+			vm.$store.dispatch('deleteInput', index)
 		},
 		cloneElement(index, form) {
-			console.log(vm)
 			var cloned = lodash.cloneDeep(form) // clone deep lodash
-			vm.$store.forms.splice(index, 0, cloned)
+			vm.$store.dispatch('cloneInput', { idx: index, cloned: cloned })
 		},
 		editElementProperties(form) {
-			vm.$store.activeForm = form
-			vm.$store.activeTabForFields = 'properties'
+			vm.$store.dispatch('editInput', form)
 		},
 	},
 })
