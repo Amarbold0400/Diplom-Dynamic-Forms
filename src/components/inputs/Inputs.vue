@@ -9,18 +9,21 @@
 				@start="onStart"
 			>
 				<div
-					class="col-md-12"
+					class="col-md-12 mt-tn"
 					:class="{ 'is-disabled': checkStopDragCondition(field) }"
 					v-for="(field, index) in fields"
 					:key="index"
 				>
 					<i-button
-						class="width-100"
+						class="custom-btn width-100"
 						type="primary"
+						style="color: white"
 						:active="active == 0"
 						@click="active = 0"
 					>
-						{{ field.text }}
+						<p class="button-p">
+							{{ field.text }}
+						</p>
 					</i-button>
 				</div>
 			</draggable>
@@ -108,6 +111,12 @@ export default {
 
 	.is-disabled & {
 		opacity: 0.4;
+	}
+}
+
+.custom-btn {
+	& .button-p {
+		color: white;
 	}
 }
 

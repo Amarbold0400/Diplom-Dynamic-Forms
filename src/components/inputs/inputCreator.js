@@ -4,9 +4,10 @@ import lodash from 'lodash'
 import draggable from 'vuedraggable'
 
 import RadioInput from '@/components/inputs/RadioInput'
+import TextInput from '@/components/inputs/TextInput'
 
 import Inputs from '@/components/inputs/Inputs.vue'
-// import Properties from '@/components/form_elements/Properties'
+import Properties from '@/components/inputs/properties.vue'
 // import Theming from '@/components/form_elements/Theming'
 
 export const InputCreator = new Vue({
@@ -14,10 +15,22 @@ export const InputCreator = new Vue({
 		Inputs,
 		draggable,
 		RadioInput,
+		TextInput,
+		Properties,
 	},
 	data() {
 		return {
 			fields: [
+				{
+					name: 'TextInput',
+					text: 'Text',
+					group: 'form', //form group
+					hasOptions: false,
+					isRequired: false,
+					isHelpBlockVisible: false,
+					isPlaceholderVisible: true,
+					isUnique: false,
+				},
 				{
 					name: 'RadioInput',
 					text: 'Radio',
@@ -45,15 +58,15 @@ export const InputCreator = new Vue({
 		}
 	},
 	methods: {
-		deleteElement(index) {
-			vm.$store.dispatch('deleteInput', index)
+		editElementProperties(form) {
+			vm.$store.dispatch('editInput', form)
 		},
 		cloneElement(index, form) {
 			var cloned = lodash.cloneDeep(form) // clone deep lodash
 			vm.$store.dispatch('cloneInput', { idx: index, cloned: cloned })
 		},
-		editElementProperties(form) {
-			vm.$store.dispatch('editInput', form)
+		deleteElement(index) {
+			vm.$store.dispatch('deleteInput', index)
 		},
 	},
 })

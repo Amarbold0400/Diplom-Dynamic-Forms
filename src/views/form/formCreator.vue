@@ -76,13 +76,14 @@
 		</div>
 		<div class="form-main-content-wrapper row reverse">
 			<div class="main-content-sidebar right col-md-3 pt-sm">
-				<!-- <properties v-show="Object.keys($store.activeForm).length > 0"></properties> -->
+				<properties v-if="showProperties && forms.length > 0"></properties>
+				<div v-else>Choose an input</div>
+				<!-- <div>design options</div>
 				<div>design options</div>
 				<div>design options</div>
 				<div>design options</div>
 				<div>design options</div>
-				<div>design options</div>
-				<div>design options</div>
+				<div>design options</div> -->
 			</div>
 			<div class="main-content col-md flex-line center">
 				<draggable :list="forms" class="dragArea" :options="sortElementOptions">
@@ -92,10 +93,11 @@
 						v-bind="form"
 						class="form__group"
 						:class="{ 'is--active': form === activeForm }"
+						@click="editElementProperties(form)"
 					>
 						<span class="form__selectedlabel">{{ form.fieldType }}</span>
 
-						<div @click="editElementProperties(form)">
+						<div>
 							<label
 								class="form__label"
 								v-model="form.label"
@@ -141,14 +143,6 @@
 								@click="deleteElement(index)"
 								>Delete</i-button
 							>
-
-							<!-- <vs-button
-								@click="cloneElement(index, form)"
-								v-show="!form.isUnique"
-							>
-								Clone
-							</vs-button> -->
-							<!-- <vs-button @click="deleteElement(index)">Delete</vs-button> -->
 						</div>
 					</div>
 				</draggable>
@@ -169,6 +163,7 @@ export default {
 		return {
 			active: 1,
 			sortElementOptions: InputCreator.$data.sortElementOptions,
+			showProperties: false,
 		}
 	},
 	computed: {
@@ -181,6 +176,7 @@ export default {
 	},
 	methods: {
 		editElementProperties(form) {
+			this.showProperties = true
 			InputCreator.editElementProperties(form)
 		},
 		cloneElement(index, form) {
@@ -270,16 +266,17 @@ export default {
 					visibility: hidden;
 					z-index: 3;
 					right: 15px;
-					box-shadow: 4px 4px 0 0 lighten(black, 80%);
 					border-radius: 2px;
 				}
 
 				& .form__group {
+					min-height: 170px;
 					width: 500px;
 					border: 1px solid white;
 					border-radius: 8px;
 					padding: 10px;
 					margin-bottom: 30px;
+					cursor: pointer;
 
 					& .form__selectedlabel {
 						color: white;
@@ -294,7 +291,7 @@ export default {
 						& .form__actionitem--move {
 							position: absolute;
 							right: -33px;
-							bottom: 100%;
+							bottom: 70px;
 							transform: translateY(-50%);
 							visibility: hidden;
 
@@ -326,6 +323,10 @@ export default {
 							display: inline-block;
 						}
 					}
+
+					& .form__helpblock {
+						color: white;
+					}
 				}
 			}
 		}
@@ -334,7 +335,7 @@ export default {
 			border-left: 1px solid #4a4a4a;
 			background: #151515;
 			padding-left: 30px;
-			padding-right: 20px;
+			padding-right: 25px;
 
 			&.left {
 				border-left: none;
