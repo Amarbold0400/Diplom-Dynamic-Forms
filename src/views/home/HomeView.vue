@@ -3,9 +3,7 @@
 		<div class="forms-home-content-wrapper">
 			<div class="home-upper-content flex-line start pt-md">
 				<div class="home-upper-content-title mr-tn">Created Forms</div>
-				<vs-button flat size="large" color="#3f4ad9" @click="createFormDialog">
-					CREATE FORM
-				</vs-button>
+				<i-button @click="createFormDialog">CREATE FORM</i-button>
 			</div>
 		</div>
 	</div>

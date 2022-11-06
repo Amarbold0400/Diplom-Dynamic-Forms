@@ -8,24 +8,21 @@
 						@click="$router.push({ name: 'HomeView' })"
 					/>
 					<div class="upper-navigation flex-line center">
-						<vs-button
-							flat
+						<i-button
+							class="mr-sm"
+							type="primary"
 							size="large"
-							color="#3f4ad9"
-							class="mr-md"
 							@click="$router.push({ name: create.form.creator })"
 						>
 							<!-- tuhain form-iin id ni paramsaar orno deerh click deer -->
 							<div class="upper-nav-text flex-line center">
 								<i class="isax isax-edit mr-four" />
 								<p>Create</p>
-							</div>
-						</vs-button>
-
-						<vs-button
-							flat
+							</div></i-button
+						>
+						<i-button
+							type="primary"
 							size="large"
-							color="#3f4ad9"
 							@click="$router.push({ name: create.form.creator })"
 						>
 							<!-- deerh click preview uchir route-ee solino formsID params bas nemegdene -->
@@ -33,7 +30,7 @@
 								<i class="isax isax-eye mr-four" />
 								<p>Preview</p>
 							</div>
-						</vs-button>
+						</i-button>
 					</div>
 				</div>
 			</div>
@@ -79,6 +76,7 @@
 		</div>
 		<div class="form-main-content-wrapper row reverse">
 			<div class="main-content-sidebar right col-md-3 pt-sm">
+				<!-- <properties v-show="Object.keys($store.activeForm).length > 0"></properties> -->
 				<div>design options</div>
 				<div>design options</div>
 				<div>design options</div>
@@ -121,16 +119,36 @@
 						</div>
 
 						<!-- Actions list -->
-						<div class="form__actiongroup">
-							<vs-button class="form__actionitem--move">Move</vs-button>
+						<div class="form__actiongroup flex-line end">
+							<i-button
+								type="primary"
+								size="large"
+								class="form__actionitem--move"
+							>
+								<i class="isax isax-row-vertical" style="color: white"></i
+							></i-button>
+							<i-button
+								class="mr-tn"
+								type="primary"
+								size="large"
+								@click="cloneElement(index, form)"
+								v-show="!form.isUnique"
+								>Clone</i-button
+							>
+							<i-button
+								type="primary"
+								size="large"
+								@click="deleteElement(index)"
+								>Delete</i-button
+							>
 
-							<vs-button
+							<!-- <vs-button
 								@click="cloneElement(index, form)"
 								v-show="!form.isUnique"
 							>
 								Clone
-							</vs-button>
-							<vs-button @click="deleteElement(index)">Delete</vs-button>
+							</vs-button> -->
+							<!-- <vs-button @click="deleteElement(index)">Delete</vs-button> -->
 						</div>
 					</div>
 				</draggable>
@@ -236,6 +254,7 @@ export default {
 
 		& .main-content {
 			& .dragArea {
+				// width: 100%;
 				max-width: 600px;
 				margin-left: auto;
 				margin-right: auto;
@@ -243,13 +262,69 @@ export default {
 				top: 10px;
 				min-height: 10px;
 				z-index: 2;
+				border: 1px solid black;
+
+				.form__actionlist {
+					position: absolute;
+					margin-top: 10px;
+					visibility: hidden;
+					z-index: 3;
+					right: 15px;
+					box-shadow: 4px 4px 0 0 lighten(black, 80%);
+					border-radius: 2px;
+				}
 
 				& .form__group {
+					width: 500px;
+					border: 1px solid white;
+					border-radius: 8px;
+					padding: 10px;
+					margin-bottom: 30px;
+
 					& .form__selectedlabel {
 						color: white;
 					}
 					& .form__label {
 						color: white;
+					}
+
+					& .form__actiongroup {
+						position: relative;
+
+						& .form__actionitem--move {
+							position: absolute;
+							right: -33px;
+							bottom: 100%;
+							transform: translateY(-50%);
+							visibility: hidden;
+
+							&:active,
+							&:focus,
+							&:hover {
+								border-color: lighten(black, 25%);
+								// background: lighten(black, 25%);
+							}
+						}
+					}
+
+					&:hover {
+						border-color: lighten(black, 80%);
+
+						.form__actionitem--move {
+							visibility: visible;
+						}
+					}
+
+					&.is--active {
+						border-color: lighten(black, 50%);
+						background: lighten(black, 25%);
+
+						.form__actionlist {
+							visibility: visible;
+						}
+						.form__selectedlabel {
+							display: inline-block;
+						}
 					}
 				}
 			}
@@ -259,6 +334,7 @@ export default {
 			border-left: 1px solid #4a4a4a;
 			background: #151515;
 			padding-left: 30px;
+			padding-right: 20px;
 
 			&.left {
 				border-left: none;

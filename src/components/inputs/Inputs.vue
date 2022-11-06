@@ -1,10 +1,10 @@
 <template>
-	<div class="inputs-container container">
+	<div class="inputs-container">
 		<div class="row">
 			<draggable
 				:list="fields"
 				:clone="clone"
-				class="dragArea"
+				class="dragArea width-100"
 				:options="dropElementOptions"
 				@start="onStart"
 			>
@@ -14,9 +14,14 @@
 					v-for="(field, index) in fields"
 					:key="index"
 				>
-					<vs-button flat :active="active == 0" @click="active = 0">
+					<i-button
+						class="width-100"
+						type="primary"
+						:active="active == 0"
+						@click="active = 0"
+					>
 						{{ field.text }}
-					</vs-button>
+					</i-button>
 				</div>
 			</draggable>
 		</div>

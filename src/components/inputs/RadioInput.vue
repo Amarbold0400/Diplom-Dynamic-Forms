@@ -1,13 +1,31 @@
 <template>
 	<div>
-		<vs-radio
+		<RadioGroup v-model="vertical" vertical>
+			<Radio
+				v-model="picked"
+				v-for="(item, index) in currentField.options"
+				:key="item.optionValue"
+				:val="item.optionLabel"
+			>
+				{{ item.optionValue }}</Radio
+			>
+		</RadioGroup>
+		<!-- <Radio
+			v-model="picked"
+			v-for="(item, index) in currentField.options"
+			:key="item.optionValue"
+			:val="item.optionLabel"
+		>
+			{{ item.optionValue }}</Radio
+		> -->
+		<!-- <vs-radio
 			v-model="picked"
 			v-for="(item, index) in currentField.options"
 			:key="item.optionValue"
 			:val="item.optionLabel"
 		>
 			{{ item.optionValue }}
-		</vs-radio>
+		</vs-radio> -->
 	</div>
 </template>
 
@@ -22,3 +40,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+.ivu-radio-wrapper {
+	color: white;
+}
+</style>
