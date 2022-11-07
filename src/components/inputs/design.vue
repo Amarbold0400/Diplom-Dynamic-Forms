@@ -33,6 +33,10 @@
 								></InputNumber>
 							</FormItem>
 
+							<FormItem label="Background Color">
+								<ColorPicker v-model="themingVars.globalBackgroundColor" />
+							</FormItem>
+
 							<FormItem label="Color">
 								<ColorPicker v-model="themingVars.globalFontColor" />
 							</FormItem>
@@ -231,3 +235,5 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss"></style>

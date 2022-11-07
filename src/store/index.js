@@ -16,19 +16,21 @@ export default new Vuex.Store({
 		activeTabForFields: 'elements',
 		themingVars: {
 			globalFontFamily: 'Arial',
+			globalBackgroundColor: '#FFFFFF',
 			globalFontColor: '#777777',
 			globalLinkColor: '#206C92',
-			globalFontSize: '16',
+			globalFontSize: 16,
 
-			labelFontWeight: '500',
-			labelFontSize: '16',
-			labelMarginBottom: '10',
+			primaryColor: '#FFFFFF',
+			labelFontWeight: 500,
+			labelFontSize: 16,
+			labelMarginBottom: 10,
 
 			helpTextColor: '#cccccc',
-			helpTextFontSize: '12',
-			helpTextMarginTop: '10',
+			helpTextFontSize: 12,
+			helpTextMarginTop: 10,
 
-			inputBorderRadius: '4',
+			inputBorderRadius: 4,
 			inputBorderColor: '#dcdfe6',
 			inputHoverBorderColor: '#c0c4cc',
 			inputFocusBorderColor: '#000000',

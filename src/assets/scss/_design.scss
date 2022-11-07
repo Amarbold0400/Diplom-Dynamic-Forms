@@ -7,9 +7,11 @@
 
 // List all the theming styles
 //
+
 .main-content {
-	@include variable(font-family, Arial, --theme-global-font-family);
+	@include variable(font-family, 'SFProDisplay', --theme-global-font-family);
 	@include variable(color, #777777, --theme-global-font-color);
+	@include variable(background, black, --theme-global-background-color);
 	@include variable(font-size, 16, --theme-global-font-size);
 
 	a {
@@ -50,7 +52,7 @@
 		@include variable(margin-top, 10, --theme-help-text-margin-top);
 	}
 
-	.ivu-input-inner-container,
+	.ivu-input,
 	.ivu-radio-inner {
 		@include variable(border-color, #dcdfe6, --theme-input-border-color);
 		@include variable(border-radius, 4, --theme-input-border-radius);
@@ -73,27 +75,27 @@
 		}
 	}
 
-	// .el-input-number__decrease {
-	// 	@include variable(border-top-left-radius, 4, --theme-input-border-radius);
-	// 	@include variable(
-	// 		border-bottom-left-radius,
-	// 		4,
-	// 		--theme-input-border-radius
-	// 	);
-	// }
+	.el-input-number__decrease {
+		@include variable(border-top-left-radius, 4, --theme-input-border-radius);
+		@include variable(
+			border-bottom-left-radius,
+			4,
+			--theme-input-border-radius
+		);
+	}
 
-	// .el-input-number__increase {
-	// 	@include variable(border-top-right-radius, 4, --theme-input-border-radius);
-	// 	@include variable(
-	// 		border-bottom-right-radius,
-	// 		4,
-	// 		--theme-input-border-radius
-	// 	);
-	// }
+	.el-input-number__increase {
+		@include variable(border-top-right-radius, 4, --theme-input-border-radius);
+		@include variable(
+			border-bottom-right-radius,
+			4,
+			--theme-input-border-radius
+		);
+	}
 
-	// .form__button {
-	// 	@include variable(background-color, black, --theme-button-background);
-	// 	@include variable(border-color, black, --theme-button-border-color);
-	// 	@include variable(color, white, --theme-button-color);
-	// }
+	.form__button {
+		@include variable(background-color, black, --theme-button-background);
+		@include variable(border-color, black, --theme-button-border-color);
+		@include variable(color, white, --theme-button-color);
+	}
 }

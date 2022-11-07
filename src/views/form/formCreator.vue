@@ -291,7 +291,6 @@ export default {
 				top: 10px;
 				min-height: 10px;
 				z-index: 2;
-				border: 1px solid black;
 
 				.form__actionlist {
 					position: absolute;
@@ -305,7 +304,7 @@ export default {
 				& .form__group {
 					min-height: 170px;
 					width: 500px;
-					border: 1px solid white;
+					border: 1px solid black;
 					border-radius: 8px;
 					padding: 10px;
 					margin-bottom: 30px;

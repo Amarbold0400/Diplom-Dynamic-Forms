@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss">
 #app {
-	background: black;
+	// background: black;
 }
 .fade-enter-active,
 .fade-leave-active {
