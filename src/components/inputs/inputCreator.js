@@ -8,7 +8,7 @@ import TextInput from '@/components/inputs/TextInput'
 
 import Inputs from '@/components/inputs/Inputs.vue'
 import Properties from '@/components/inputs/properties.vue'
-// import Theming from '@/components/form_elements/Theming'
+import Design from '@/components/inputs/design.vue'
 
 export const InputCreator = new Vue({
 	components: {
@@ -17,6 +17,7 @@ export const InputCreator = new Vue({
 		RadioInput,
 		TextInput,
 		Properties,
+		Design,
 	},
 	data() {
 		return {

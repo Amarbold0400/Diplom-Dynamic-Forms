@@ -43,6 +43,6 @@ export default {
 
 <style lang="scss">
 .ivu-radio-wrapper {
-	color: white;
+	// color: white;
 }
 </style>

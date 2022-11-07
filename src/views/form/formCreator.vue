@@ -49,7 +49,7 @@
 					:class="{ active: active === 2 }"
 					@click="active = 2"
 				>
-					Edit 2
+					Design
 				</div>
 				<div
 					class="edit-option 3"
@@ -76,8 +76,12 @@
 		</div>
 		<div class="form-main-content-wrapper row reverse">
 			<div class="main-content-sidebar right col-md-3 pt-sm">
-				<properties v-if="showProperties && forms.length > 0"></properties>
-				<div v-else>Choose an input</div>
+				<!-- <properties v-if="showProperties && forms.length > 0"></properties>
+				<div v-else-if="showProperties && forms.length == 0">
+					Choose an input
+				</div> -->
+				<design v-if="active == 2"></design>
+				<!-- <div v-else="active == 2 && activeForm.length == 0">Hello</div> -->
 				<!-- <div>design options</div>
 				<div>design options</div>
 				<div>design options</div>
@@ -85,7 +89,7 @@
 				<div>design options</div>
 				<div>design options</div> -->
 			</div>
-			<div class="main-content col-md flex-line center">
+			<div class="main-content col-md flex-line center" :style="cssProps">
 				<draggable :list="forms" class="dragArea" :options="sortElementOptions">
 					<div
 						v-for="(form, index) in forms"
@@ -127,7 +131,7 @@
 								size="large"
 								class="form__actionitem--move"
 							>
-								<i class="isax isax-row-vertical" style="color: white"></i
+								<i class="isax isax-row-vertical"></i
 							></i-button>
 							<i-button
 								class="mr-tn"
@@ -167,6 +171,35 @@ export default {
 		}
 	},
 	computed: {
+		themingVars() {
+			return this.$store.state.themingVars
+		},
+		cssProps() {
+			// Return an object that will generate css properties key
+			// to match with the themingVars
+			//
+			// Example output: { '--theme-primary-color': this.themingVars.primaryColor }
+			var result = {},
+				themingVars = this.themingVars
+
+			for (var v in themingVars) {
+				if (themingVars.hasOwnProperty(v)) {
+					var newV = '--theme-' + _.kebabCase(v),
+						suffix = ''
+
+					// Add px to the value if the default value contain 'px'
+					if (_.includes(newV, 'size')) suffix = 'px'
+					else if (_.includes(newV, 'margin')) suffix = 'px'
+					else if (_.includes(newV, 'radius')) suffix = 'px'
+
+					result[newV] = themingVars[v] + suffix
+				}
+			}
+
+			// console.log('result', result)
+
+			return result
+		},
 		forms() {
 			return this.$store.state.forms
 		},
@@ -279,10 +312,10 @@ export default {
 					cursor: pointer;
 
 					& .form__selectedlabel {
-						color: white;
+						// color: white;
 					}
 					& .form__label {
-						color: white;
+						// color: white;
 					}
 
 					& .form__actiongroup {
@@ -325,7 +358,7 @@ export default {
 					}
 
 					& .form__helpblock {
-						color: white;
+						// color: white;
 					}
 				}
 			}
@@ -343,7 +376,7 @@ export default {
 			}
 
 			& > div {
-				color: white;
+				// color: white;
 			}
 
 			& .inputs-title-text {
@@ -351,7 +384,7 @@ export default {
 				font-weight: 500;
 				font-size: 25px;
 				line-height: 30px;
-				color: white;
+				// color: white;
 			}
 		}
 	}
