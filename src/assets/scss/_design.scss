@@ -9,7 +9,7 @@
 //
 
 .main-content {
-	@include variable(font-family, 'SFProDisplay', --theme-global-font-family);
+	@include variable(font-family, TimesNewRoman, --theme-global-font-family);
 	@include variable(color, #777777, --theme-global-font-color);
 	@include variable(background, black, --theme-global-background-color);
 	@include variable(font-size, 16, --theme-global-font-size);

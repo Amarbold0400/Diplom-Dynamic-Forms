@@ -16,7 +16,7 @@ export default new Vuex.Store({
 		activeTabForFields: 'elements',
 		themingVars: {
 			globalFontFamily: 'Arial',
-			globalBackgroundColor: '#FFFFFF',
+			globalBackgroundColor: 'black',
 			globalFontColor: '#777777',
 			globalLinkColor: '#206C92',
 			globalFontSize: 16,
