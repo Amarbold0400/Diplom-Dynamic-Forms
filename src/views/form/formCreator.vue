@@ -76,10 +76,12 @@
 		</div>
 		<div class="form-main-content-wrapper row reverse">
 			<div class="main-content-sidebar right col-md-3 pt-sm">
-				<!-- <properties v-if="showProperties && forms.length > 0"></properties>
-				<div v-else-if="showProperties && forms.length == 0">
+				<properties
+					v-if="showProperties && forms.length > 0 && active == 1"
+				></properties>
+				<div v-else-if="showProperties && forms.length == 0 && active == 1">
 					Choose an input
-				</div> -->
+				</div>
 				<design v-if="active == 2"></design>
 				<!-- <div v-else="active == 2 && activeForm.length == 0">Hello</div> -->
 				<!-- <div>design options</div>
