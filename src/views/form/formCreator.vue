@@ -23,7 +23,7 @@
 						<i-button
 							type="primary"
 							size="large"
-							@click="$router.push({ name: create.form.creator })"
+							@click="$router.push({ name: 'home.preview' })"
 						>
 							<!-- deerh click preview uchir route-ee solino formsID params bas nemegdene -->
 							<div class="upper-nav-text flex-line center">
@@ -56,9 +56,9 @@
 					:class="{ active: active === 3 }"
 					@click="active = 3"
 				>
-					Edit 3
+					Share
 				</div>
-				<div
+				<!-- <div
 					class="edit-option 4"
 					:class="{ active: active === 4 }"
 					@click="active = 4"
@@ -71,7 +71,7 @@
 					@click="active = 5"
 				>
 					Edit 5
-				</div>
+				</div> -->
 			</div>
 		</div>
 		<div class="form-main-content-wrapper row reverse">
@@ -153,10 +153,11 @@
 					</div>
 				</draggable>
 			</div>
-			<div class="main-content-sidebar left col-md-3 pt-sm">
+			<div class="main-content-sidebar left col-md-3 pt-sm" v-if="active != 2">
 				<div class="inputs-title-text mb-sm">Inputs</div>
 				<inputs />
 			</div>
+			<div v-else-if="active == 2" class="spacer col-md-3"></div>
 		</div>
 	</div>
 </template>
@@ -177,10 +178,6 @@ export default {
 			return this.$store.state.themingVars
 		},
 		cssProps() {
-			// Return an object that will generate css properties key
-			// to match with the themingVars
-			//
-			// Example output: { '--theme-primary-color': this.themingVars.primaryColor }
 			var result = {},
 				themingVars = this.themingVars
 
@@ -189,7 +186,6 @@ export default {
 					var newV = '--theme-' + _.kebabCase(v),
 						suffix = ''
 
-					// Add px to the value if the default value contain 'px'
 					if (_.includes(newV, 'size')) suffix = 'px'
 					else if (_.includes(newV, 'margin')) suffix = 'px'
 					else if (_.includes(newV, 'radius')) suffix = 'px'
@@ -197,9 +193,6 @@ export default {
 					result[newV] = themingVars[v] + suffix
 				}
 			}
-
-			// console.log('result', result)
-
 			return result
 		},
 		forms() {
@@ -387,6 +380,10 @@ export default {
 				line-height: 30px;
 				// color: white;
 			}
+		}
+
+		& .spacer {
+			background: black;
 		}
 	}
 }

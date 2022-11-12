@@ -13,6 +13,11 @@ const routes = [
 		component: page('home/HomeView.vue'),
 	},
 	{
+		path: '/preview',
+		name: 'home.preview',
+		component: page('home/PreView.vue'),
+	},
+	{
 		path: '/login',
 		name: 'login.index',
 		component: page('login/loginPage.vue'),
