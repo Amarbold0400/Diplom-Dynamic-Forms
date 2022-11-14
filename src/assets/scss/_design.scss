@@ -35,6 +35,27 @@
 		font-size: 0.83em;
 	}
 
+	.form__group {
+		@include variable(background, #404040, --theme-form-group-background-color);
+		@include variable(border-width, thin, --theme-form-group-border-width);
+		@include variable(border-style, solid, --theme-form-group-border-style);
+		@include variable(border-color, #808080, --theme-form-group-border-color);
+
+		&.is--active,
+		&:hover {
+			@include variable(
+				background,
+				#404040,
+				--theme-form-group-background-hover-color
+			);
+			@include variable(
+				border-color,
+				#808080,
+				--theme-form-group-border-hover-color
+			);
+		}
+	}
+
 	.form__label {
 		display: block;
 
@@ -73,6 +94,12 @@
 			);
 			box-shadow: 0 0 0 2px var(--theme-input-shadow-color);
 		}
+	}
+
+	.ivu-btn {
+		@include variable(background-color, black, --theme-button-background);
+		@include variable(border-color, black, --theme-button-border-color);
+		@include variable(color, white, --theme-button-color);
 	}
 
 	.el-input-number__decrease {

@@ -23,23 +23,42 @@
 					Appearance
 					<div slot="content">
 						<Form>
-							<!-- <FormItem label="Font Family">
-							<i-select
-								v-model="themingVars.globalFontFamily"
-								placeholder="Select font family"
-							>
-								<Dropdown>
-									<DropdownMenu slot="list">
-										<DropdownItem
-											v-for="group in fontOptions"
-											:key="group.label"
-											:label="group.label"
-											>{{ group }}</DropdownItem
+							<FormItem label="Font Family">
+								<i-select
+									v-model="themingVars.globalFontFamily"
+									placeholder="Select font family"
+								>
+									<OptionGroup
+										v-for="group in fontOptions"
+										:label="group.label"
+									>
+										<Option
+											v-for="el in group.options"
+											:value="el.value"
+											:key="el.value"
+											>{{ el.label }}</Option
 										>
-									</DropdownMenu>
-								</Dropdown>
-							</i-select>
-						</FormItem> -->
+									</OptionGroup>
+									<!-- <Dropdown>
+										<DropdownMenu slot="list">
+											<DropdownItem>驴打滚</DropdownItem>
+											<DropdownItem>炸酱面</DropdownItem>
+											<DropdownItem>豆汁儿</DropdownItem>
+											<DropdownItem v-for="group in fontOptions">
+												<DropdownItem>
+													{{ group }}
+													<Icon type="ios-arrow-forward"></Icon>
+												</DropdownItem>
+												<DropdownMenu slot="list">
+													<DropdownItem v-for="el in group">{{
+														el
+													}}</DropdownItem>
+												</DropdownMenu>
+											</DropdownItem>
+										</DropdownMenu>
+									</Dropdown> -->
+								</i-select>
+							</FormItem>
 
 							<FormItem label="Font Size">
 								<InputNumber
@@ -70,6 +89,54 @@
 								/>
 							</FormItem>
 						</Form>
+					</div>
+				</Panel>
+
+				<!-- Question -->
+				<Panel>
+					Question
+					<div slot="content">
+						<FormItem label="Question Background Color">
+							<ColorPicker
+								v-model="themingVars.formGroupBackgroundColor"
+								:colors="extractedColors"
+							/>
+						</FormItem>
+
+						<FormItem label="Question Hover Background Color">
+							<ColorPicker
+								v-model="themingVars.formGroupBackgroundHoverColor"
+								:colors="extractedColors"
+							/>
+						</FormItem>
+
+						<FormItem label="Question Border Width">
+							<i-select
+								v-model="themingVars.formGroupBorderWidth"
+								placeholder="Select border width"
+							>
+								<Option
+									v-for="el in borderWidthOptions"
+									:value="el.value"
+									:key="el.value"
+									>{{ el.label }}</Option
+								>
+							</i-select>
+						</FormItem>
+
+						<FormItem label="Question Border Color">
+							<ColorPicker
+								v-model="themingVars.formGroupBorderColor"
+								:colors="extractedColors"
+							/>
+						</FormItem>
+
+						<FormItem label="Question Hover Border Color">
+							<ColorPicker
+								v-model="themingVars.formGroupBorderHoverColor"
+								:colors="extractedColors"
+							/>
+						</FormItem>
 					</div>
 				</Panel>
 
@@ -223,6 +290,20 @@ export default {
 	data() {
 		return {
 			activeCollapse: ['appearance'],
+			borderWidthOptions: [
+				{
+					value: 'thin',
+					label: 'Thin',
+				},
+				{
+					value: 'medium',
+					label: 'Medium',
+				},
+				{
+					value: 'thick',
+					label: 'Thick',
+				},
+			],
 			fontOptions: [
 				{
 					label: 'Sans Serif',
@@ -339,4 +420,26 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.ivu-color-picker-confirm {
+	& .ivu-btn-default {
+		& > span {
+			display: none;
+		}
+
+		&:after {
+			content: 'Clear';
+		}
+	}
+
+	& .ivu-btn-primary {
+		& > span {
+			display: none;
+		}
+
+		&:after {
+			content: 'Select';
+		}
+	}
+}
+</style>

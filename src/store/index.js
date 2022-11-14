@@ -27,6 +27,13 @@ export default new Vuex.Store({
 			labelFontSize: 16,
 			labelMarginBottom: 10,
 
+			formGroupBackgroundColor: '#404040',
+			formGroupBackgroundHoverColor: '#969696',
+			formGroupBorderWidth: 'thin',
+			formGroupBorderStyle: 'solid',
+			formGroupBorderColor: '#808080',
+			formGroupBorderHoverColor: '#969696',
+
 			helpTextColor: '#cccccc',
 			helpTextFontSize: 12,
 			helpTextMarginTop: 10,

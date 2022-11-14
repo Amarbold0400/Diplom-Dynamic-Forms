@@ -101,7 +101,7 @@
 						:class="{ 'is--active': form === activeForm }"
 						@click="editElementProperties(form)"
 					>
-						<span class="form__selectedlabel">{{ form.fieldType }}</span>
+						<span class="form__selectedlabel">{{ index + 1 }}.</span>
 
 						<div>
 							<label
@@ -299,7 +299,7 @@ export default {
 				& .form__group {
 					min-height: 170px;
 					width: 500px;
-					border: 1px solid black;
+					// border: 1px solid;
 					border-radius: 8px;
 					padding: 10px;
 					margin-bottom: 30px;
@@ -325,14 +325,14 @@ export default {
 							&:active,
 							&:focus,
 							&:hover {
-								border-color: lighten(black, 25%);
+								// border-color: lighten(black, 25%);
 								// background: lighten(black, 25%);
 							}
 						}
 					}
 
 					&:hover {
-						border-color: lighten(black, 80%);
+						// border-color: lighten(black, 80%);
 
 						.form__actionitem--move {
 							visibility: visible;
@@ -340,8 +340,8 @@ export default {
 					}
 
 					&.is--active {
-						border-color: lighten(black, 50%);
-						background: lighten(black, 25%);
+						// border-color: lighten(black, 50%);
+						// background: lighten(black, 25%);
 
 						.form__actionlist {
 							visibility: visible;
