@@ -14,6 +14,7 @@ export default new Vuex.Store({
 		forms: [],
 		activeForm: [],
 		activeTabForFields: 'elements',
+		extractedColors: [],
 		themingVars: {
 			globalFontFamily: 'Arial',
 			globalBackgroundColor: 'black',
@@ -43,6 +44,7 @@ export default new Vuex.Store({
 	},
 	getters: {
 		themingVars: (state) => state.themingVars,
+		extractedColors: (state) => state.extractedColors,
 	},
 	mutations: {
 		EDIT_INPUT(state, payload) {
@@ -58,6 +60,9 @@ export default new Vuex.Store({
 			let index = state.forms.findIndex((_, idx) => idx == payload)
 			state.forms.splice(index, 1)
 		},
+		SET_EXTRACTED_COLORS(state, payload) {
+			state.extractedColors = payload
+		},
 	},
 	actions: {
 		editInput({ commit }, payload) {
@@ -68,6 +73,9 @@ export default new Vuex.Store({
 		},
 		deleteInput({ commit }, payload) {
 			commit('DELETE_INPUT', payload)
+		},
+		saveExtractColors({ commit }, payload) {
+			commit('SET_EXTRACTED_COLORS', payload)
 		},
 	},
 })
