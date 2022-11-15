@@ -30,6 +30,7 @@
 								>
 									<OptionGroup
 										v-for="group in fontOptions"
+										:key="group.label"
 										:label="group.label"
 									>
 										<Option
@@ -39,24 +40,6 @@
 											>{{ el.label }}</Option
 										>
 									</OptionGroup>
-									<!-- <Dropdown>
-										<DropdownMenu slot="list">
-											<DropdownItem>驴打滚</DropdownItem>
-											<DropdownItem>炸酱面</DropdownItem>
-											<DropdownItem>豆汁儿</DropdownItem>
-											<DropdownItem v-for="group in fontOptions">
-												<DropdownItem>
-													{{ group }}
-													<Icon type="ios-arrow-forward"></Icon>
-												</DropdownItem>
-												<DropdownMenu slot="list">
-													<DropdownItem v-for="el in group">{{
-														el
-													}}</DropdownItem>
-												</DropdownMenu>
-											</DropdownItem>
-										</DropdownMenu>
-									</Dropdown> -->
 								</i-select>
 							</FormItem>
 
@@ -404,7 +387,6 @@ export default {
 					background: 'rgba(28, 28, 28, 0.6)',
 				})
 				const { data } = await testRepo.extractCss({ url: this.urlInput })
-				console.log(data.colors)
 				this.$store.dispatch('saveExtractColors', data.colors)
 			} catch (e) {
 				console.log(e)

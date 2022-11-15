@@ -12,7 +12,7 @@
 							class="mr-sm"
 							type="primary"
 							size="large"
-							@click="$router.push({ name: create.form.creator })"
+							@click="$router.push({ name: 'create.form.creator' })"
 						>
 							<!-- tuhain form-iin id ni paramsaar orno deerh click deer -->
 							<div class="upper-nav-text flex-line center">
@@ -40,14 +40,20 @@
 				<div
 					class="edit-option 1 flex-col"
 					:class="{ active: active === 1 }"
-					@click="active = 1"
+					@click="
+						active = 1
+						activeSidebar = !activeSidebar
+					"
 				>
 					Edit
 				</div>
 				<div
 					class="edit-option 2"
 					:class="{ active: active === 2 }"
-					@click="active = 2"
+					@click="
+						active = 2
+						activeSidebar = !activeSidebar
+					"
 				>
 					Design
 				</div>
@@ -58,38 +64,19 @@
 				>
 					Share
 				</div>
-				<!-- <div
-					class="edit-option 4"
-					:class="{ active: active === 4 }"
-					@click="active = 4"
-				>
-					Edit 4
-				</div>
-				<div
-					class="edit-option 5"
-					:class="{ active: active === 5 }"
-					@click="active = 5"
-				>
-					Edit 5
-				</div> -->
 			</div>
 		</div>
 		<div class="form-main-content-wrapper row reverse">
-			<div class="main-content-sidebar right col-md-3 pt-sm">
-				<properties
-					v-if="showProperties && forms.length > 0 && active == 1"
-				></properties>
-				<div v-else-if="showProperties && forms.length == 0 && active == 1">
-					Choose an input
-				</div>
-				<design v-if="active == 2"></design>
-				<!-- <div v-else="active == 2 && activeForm.length == 0">Hello</div> -->
-				<!-- <div>design options</div>
-				<div>design options</div>
-				<div>design options</div>
-				<div>design options</div>
-				<div>design options</div>
-				<div>design options</div> -->
+			<div class="main-content-sidebar right col-md-2 pt-sm">
+				<transition name="fade" mode="out-in">
+					<properties
+						v-if="showProperties && forms.length > 0 && active == 1"
+					></properties>
+					<div v-else-if="showProperties && forms.length == 0 && active == 1">
+						Choose an input
+					</div>
+					<design v-if="active == 2"></design>
+				</transition>
 			</div>
 			<div class="main-content col-md flex-line center" :style="cssProps">
 				<draggable :list="forms" class="dragArea" :options="sortElementOptions">
@@ -153,11 +140,15 @@
 					</div>
 				</draggable>
 			</div>
-			<div class="main-content-sidebar left col-md-3 pt-sm" v-if="active != 2">
+
+			<div
+				class="main-content-sidebar left col-md-2 pt-sm"
+				:class="active != 2 ? 'edit' : ''"
+			>
 				<div class="inputs-title-text mb-sm">Inputs</div>
 				<inputs />
 			</div>
-			<div v-else-if="active == 2" class="spacer col-md-3"></div>
+			<!-- <div v-if="active == 2" class="spacer col-md-3"></div> -->
 		</div>
 	</div>
 </template>
@@ -168,6 +159,7 @@ export default {
 	components: InputCreator.$options.components,
 	data() {
 		return {
+			activeSidebar: false,
 			active: 1,
 			sortElementOptions: InputCreator.$data.sortElementOptions,
 			showProperties: false,
@@ -218,6 +210,15 @@ export default {
 </script>
 
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.2s;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
 .form-creator-container {
 	& .form-upper-content-wrapper {
 		padding: 15px 30px;
@@ -275,6 +276,7 @@ export default {
 
 	& .form-main-content-wrapper {
 		height: 85vh;
+		position: relative;
 
 		& .main-content {
 			& .dragArea {
@@ -369,6 +371,10 @@ export default {
 				border-right: 1px solid #4a4a4a;
 			}
 
+			&.edit {
+				width: 100%;
+			}
+
 			& > div {
 				// color: white;
 			}
@@ -378,7 +384,7 @@ export default {
 				font-weight: 500;
 				font-size: 25px;
 				line-height: 30px;
-				// color: white;
+				color: white;
 			}
 		}
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="el-tabs__inner">
+	<div class="properties-wrapper">
 		<Form
 			:model="fieldProperties"
 			:rules="rules"
@@ -7,7 +7,6 @@
 			ref="fieldProperties"
 		>
 			<FormItem label="Label" v-show="activeForm.hasOwnProperty('label')">
-				<!-- <Input v-model="activeForm.label">{{ activeForm.label }}</Input> -->
 				<Input
 					v-show="activeForm.hasOwnProperty('label')"
 					label="Label"
@@ -141,6 +140,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.properties-wrapper {
+	& form {
+		& .ivu-form-item {
+			.ivu-form-item-label {
+				color: white;
+			}
+		}
+	}
+}
 .properties__optionslist {
 	margin-bottom: 5px;
 }

@@ -19,7 +19,11 @@ export default {
 	},
 	computed: {
 		isNotCreator() {
-			return this.$route.name !== 'create.form.creator' ? true : false
+			return this.$route.name == 'create.form.creator'
+				? false
+				: this.$route.name == 'home.preview'
+				? false
+				: true
 		},
 	},
 }
@@ -27,7 +31,7 @@ export default {
 
 <style lang="scss">
 #app {
-	// background: black;
+	background: black;
 }
 .fade-enter-active,
 .fade-leave-active {
