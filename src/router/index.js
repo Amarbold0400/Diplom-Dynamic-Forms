@@ -29,9 +29,15 @@ const routes = [
 	},
 	{
 		// Энэ нь id-тай байна. Яг worki тестийн тест initialize хийх endpoint шиг.
-		path: '/formCreator',
+		path: '/formCreator/:id',
 		name: 'create.form.creator',
 		component: page('form/formCreator.vue'),
+	},
+	{
+		// Энэ нь id-тай байна. Яг worki тестийн тест initialize хийх endpoint шиг.
+		path: '/formResult/:id',
+		name: 'form.result',
+		component: page('form/formResult.vue'),
 	},
 	{
 		path: '*',

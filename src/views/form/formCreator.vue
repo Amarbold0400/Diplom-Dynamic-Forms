@@ -64,6 +64,14 @@
 				>
 					Share
 				</div>
+				<div class="edit-option save mr-sm">
+					<i-button type="primary" size="large" @click="saveForm">
+						<div class="upper-nav-text flex-line center">
+							<i class="isax isax-save-add mr-four" />
+							<p>Save</p>
+						</div>
+					</i-button>
+				</div>
 			</div>
 		</div>
 		<div class="form-main-content-wrapper row reverse">
@@ -78,7 +86,14 @@
 					<design v-if="active == 2"></design>
 				</transition>
 			</div>
-			<div class="main-content col-md flex-line center" :style="cssProps">
+			<div class="main-content col-md flex-col center" :style="cssProps">
+				<div class="form-title flex-col center">
+					<p class="form-title-p">
+						{{ form.title == '' ? 'Untitled' : form.title }}
+					</p>
+
+					<Input v-model="form.title" size="large" placeholder="Form Title" />
+				</div>
 				<draggable :list="forms" class="dragArea" :options="sortElementOptions">
 					<div
 						v-for="(form, index) in forms"
@@ -163,6 +178,9 @@ export default {
 			active: 1,
 			sortElementOptions: InputCreator.$data.sortElementOptions,
 			showProperties: false,
+			form: {
+				title: '',
+			},
 		}
 	},
 	computed: {
@@ -205,6 +223,8 @@ export default {
 		deleteElement(index) {
 			InputCreator.deleteElement(index)
 		},
+		// For survey
+		saveForm() {},
 	},
 }
 </script>
@@ -264,8 +284,14 @@ export default {
 			gap: 25px;
 
 			& .edit-option {
+				position: relative;
 				cursor: pointer;
 				color: white;
+
+				&.save {
+					position: absolute;
+					right: 0;
+				}
 
 				&.active {
 					border-bottom: 1px solid white;
@@ -275,10 +301,19 @@ export default {
 	}
 
 	& .form-main-content-wrapper {
-		height: 85vh;
+		min-height: 100vh;
 		position: relative;
 
 		& .main-content {
+			& .form-title {
+				margin-bottom: 15px;
+				& .form-title-p {
+					color: white;
+					font-size: 25px;
+					margin-bottom: 5px;
+				}
+			}
+
 			& .dragArea {
 				// width: 100%;
 				max-width: 600px;
@@ -286,7 +321,7 @@ export default {
 				margin-right: auto;
 				position: relative;
 				top: 10px;
-				min-height: 10px;
+				min-height: 900px;
 				z-index: 2;
 
 				.form__actionlist {

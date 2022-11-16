@@ -53,6 +53,8 @@ export default new Vuex.Store({
 		// Below are for login and signup
 		token: '',
 		user: null,
+		// Below are for survey
+		surveys: [],
 	},
 	getters: {
 		themingVars: (state) => state.themingVars,
@@ -60,6 +62,7 @@ export default new Vuex.Store({
 		getToken: (state) => state.token,
 		getCurrentUser: (state) => state.user,
 		isAuthenticated: (state) => !!state.token,
+		getAllSurveys: (state) => state.surveys,
 	},
 	mutations: {
 		// Below are for survey inputs
@@ -90,6 +93,14 @@ export default new Vuex.Store({
 		// Below are for user
 		SET_USER(state, payload) {
 			state.user = payload
+		},
+		// Below are for survey
+		SET_SURVEYS(state, payload) {
+			state.surveys = payload
+		},
+		PUSH_SURVEY(state, payload) {
+			const obj = {}
+			state.surveys.push
 		},
 	},
 	actions: {
@@ -151,6 +162,29 @@ export default new Vuex.Store({
 			} catch (e) {
 				vm.$vs.loading.close()
 				console.log(e)
+			}
+		},
+		// Below are for surveys
+		async fetchAllSurveys({ commit }) {
+			try {
+				vm.$vs.loading({ background: 'rgba(28, 28, 28, 0.6)' })
+				const { data } = await testRepo.getAllSurveys()
+				commit('SET_SURVEYS', data)
+				vm.$vs.loading.close()
+			} catch (e) {
+				vm.$vs.loading.close()
+				console.log(e)
+			}
+		},
+		async createSurveyInit({ commit }) {
+			try {
+				const { data } = await testRepo.createSurvey()
+				// const obj = { id: data, title: 'Untitled',  }
+				commit('PUSH_SURVEY', data)
+				return data
+			} catch (e) {
+				console.log(e)
+				return false
 			}
 		},
 	},

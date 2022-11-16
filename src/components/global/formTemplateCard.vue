@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="form-template-card-wrapper col-md-2 col-xs-12 col-sm-12 mt-sm"
-		@click="$router.push({ name: 'create.form.creator' })"
+		@click="initFormCreation"
 	>
 		<vs-card style="height: 100%">
 			<div class="card-title">{{ title }}</div>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import Repository from '../../repository/repoFactory'
+const testRepo = Repository.get('test')
 export default {
 	name: 'FormTemplateCard',
 	props: {
@@ -27,6 +29,22 @@ export default {
 		type: {
 			type: String,
 			default: 'blank',
+		},
+	},
+	methods: {
+		async initFormCreation() {
+			const res = await this.$store.dispatch('createSurveyInit')
+			console.log(res)
+			if (res != false) {
+				this.$router.push({
+					name: 'create.form.creator',
+					params: {
+						id: res,
+					},
+				})
+			} else {
+				this.$Message.error('There was an error!')
+			}
 		},
 	},
 }

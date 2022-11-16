@@ -20,6 +20,30 @@ export default {
 			},
 		})
 	},
+	getAllSurveys() {
+		const token = vm.$store.getters.getToken
+		return Client.get('allSurveys', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
+	createSurvey() {
+		const token = vm.$store.getters.getToken
+		const userId = vm.$store.getters.getCurrentUser
+		return Client.post(
+			'create',
+			{
+				title: 'Untitled',
+				createdBy: userId,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
+	},
 }
 
 // const resource = '/posts'
