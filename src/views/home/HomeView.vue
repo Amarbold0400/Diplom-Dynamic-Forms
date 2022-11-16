@@ -3,7 +3,9 @@
 		<div class="forms-home-content-wrapper">
 			<div class="home-upper-content flex-line start pt-md">
 				<div class="home-upper-content-title mr-tn">Created Forms</div>
-				<i-button @click="createFormDialog">CREATE FORM</i-button>
+				<i-button type="primary" @click="createFormDialog"
+					>CREATE FORM</i-button
+				>
 			</div>
 		</div>
 	</div>
@@ -11,6 +13,16 @@
 
 <script>
 export default {
+	created() {
+		if (!this.currentUser) {
+			this.$store.dispatch('fetchUser')
+		}
+	},
+	computed: {
+		currentUser() {
+			return this.$store.getters.getCurrentUser
+		},
+	},
 	methods: {
 		createFormDialog() {
 			this.$router.push({ name: 'create.form.index' })

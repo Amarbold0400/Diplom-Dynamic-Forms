@@ -17,6 +17,9 @@ export default {
 	components: {
 		navbar,
 	},
+	// created() {
+	// 	Vue.prototype.$vs = this.$vs
+	// },
 	computed: {
 		isNotCreator() {
 			return this.$route.name == 'create.form.creator'

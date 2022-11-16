@@ -4,6 +4,22 @@ export default {
 	extractCss(payload) {
 		return Client.post(`extractCss`, payload)
 	},
+	// Below are for signup and login
+	signup(payload) {
+		return Client.post(`signup`, payload)
+	},
+	login(payload) {
+		return Client.post(`login`, payload)
+	},
+	// Below are for user
+	getSurveyor() {
+		const token = vm.$store.getters.getToken
+		return Client.get('getSurveyor', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
 }
 
 // const resource = '/posts'
