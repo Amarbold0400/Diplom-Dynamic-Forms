@@ -28,14 +28,47 @@ export default {
 			},
 		})
 	},
-	createSurvey() {
+	createSurvey(payload) {
 		const token = vm.$store.getters.getToken
 		const userId = vm.$store.getters.getCurrentUser
+
 		return Client.post(
-			'create',
+			`create`,
 			{
 				title: 'Untitled',
-				createdBy: userId,
+				surveyorId: userId,
+			},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		)
+	},
+	updateSurvey(payload) {
+		const token = vm.$store.getters.getToken
+		const userId = vm.$store.getters.getCurrentUser
+		// console.log(payload)
+		// const questions = payload.questions.forEach((el) => {
+		// 	delete el['fieldType']
+		// 	delete el['helpBlockText']
+		// 	delete el['isHelpBlockVisible']
+		// 	delete el['isPlaceholderVisible']
+		// 	delete el['isRequired']
+		// 	delete el['isUnique']
+		// 	delete el['placeholder']
+		// 	el['order'] = i
+		// 	el.text = el.label
+		// 	delete el.label
+		// })
+		console.log(payload)
+		return Client.put(
+			`survey/${payload.id}`,
+			{
+				formId: payload.id,
+				title: payload.title,
+				createdBy: payload.createdBy,
+				questions: payload.questions,
 			},
 			{
 				headers: {

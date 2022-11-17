@@ -15,6 +15,7 @@
 					<the-card
 						v-for="(survey, i) in allSurveys"
 						class="col-md-3"
+						:key="'survey ' + survey"
 						:id="survey.id"
 						:title="survey.title"
 					/>

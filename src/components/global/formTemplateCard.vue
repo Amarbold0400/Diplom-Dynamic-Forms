@@ -39,7 +39,7 @@ export default {
 				this.$router.push({
 					name: 'create.form.creator',
 					params: {
-						id: res,
+						id: res.id,
 					},
 				})
 			} else {

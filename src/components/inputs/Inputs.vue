@@ -86,7 +86,7 @@ export default {
 			return newField
 		},
 		onStart() {
-			console.log('start liao')
+			// console.log('start liao')
 		},
 		checkStopDragCondition(field) {
 			let form = this.$store.state.forms

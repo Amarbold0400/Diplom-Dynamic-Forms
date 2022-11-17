@@ -99,8 +99,7 @@ export default new Vuex.Store({
 			state.surveys = payload
 		},
 		PUSH_SURVEY(state, payload) {
-			const obj = {}
-			state.surveys.push
+			state.surveys.push(payload)
 		},
 	},
 	actions: {
@@ -179,7 +178,6 @@ export default new Vuex.Store({
 		async createSurveyInit({ commit }) {
 			try {
 				const { data } = await testRepo.createSurvey()
-				// const obj = { id: data, title: 'Untitled',  }
 				commit('PUSH_SURVEY', data)
 				return data
 			} catch (e) {

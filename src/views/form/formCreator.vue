@@ -110,21 +110,22 @@
 								class="form__label"
 								v-model="form.label"
 								v-show="form.hasOwnProperty('label')"
-								>{{ form.label }}</label
 							>
+								{{ form.label }}
+							</label>
 
 							<component
 								:is="form.fieldType"
 								:currentField="form"
 								class="form__field"
-							>
-							</component>
+							/>
 
 							<small
 								class="form__helpblock"
 								v-model="form.helpBlockText"
 								v-show="form.isHelpBlockVisible"
-								>{{ form.helpBlockText }}
+							>
+								{{ form.helpBlockText }}
 							</small>
 						</div>
 
@@ -170,6 +171,8 @@
 
 <script>
 import { InputCreator } from '@/components/inputs/inputCreator'
+import Repository from '../../repository/repoFactory'
+const testRepo = Repository.get('test')
 export default {
 	components: InputCreator.$options.components,
 	data() {
@@ -178,8 +181,11 @@ export default {
 			active: 1,
 			sortElementOptions: InputCreator.$data.sortElementOptions,
 			showProperties: false,
+
 			form: {
 				title: '',
+				createdBy: this.createdById(),
+				questions: this.surveys(),
 			},
 		}
 	},
@@ -213,18 +219,61 @@ export default {
 		},
 	},
 	methods: {
+		surveys() {
+			// const obj = this.$store.state.forms
+			// const cloned = lodash.cloneDeep(obj)
+			// return cloned
+			return this.$store.state.forms
+		},
+		createdById() {
+			if (this.$store.getters.getAllSurveys.length === 0) {
+				return null
+			} else {
+				return this.$store.getters.getAllSurveys.find(
+					(el) => el.id === this.$route.params.id
+				).createdBy
+			}
+		},
+		// changeEvent(obj) {
+		// 	console.log(obj)
+		// 	const form = obj.added.element
+		// 	this.form.questions.push({ text: form.label, order: obj.added.newIndex })
+		// },
 		editElementProperties(form) {
 			this.showProperties = true
 			InputCreator.editElementProperties(form)
 		},
 		cloneElement(index, form) {
 			InputCreator.cloneElement(index, form)
+			this.form.questions.push({ text: form.label, order: index })
 		},
 		deleteElement(index) {
 			InputCreator.deleteElement(index)
 		},
 		// For survey
-		saveForm() {},
+		async saveForm() {
+			try {
+				this.$Loading.start()
+				this.$vs.loading({
+					background: 'rgba(28, 28, 28, 0.6)',
+				})
+				// const { data } = await testRepo.updateSurvey(this.form)
+				const { data } = await testRepo.updateSurvey({
+					...this.form,
+					id: this.$route.params.id,
+				})
+				console.log(data)
+				// this.$store.dispatch('saveExtractColors', data.colors)
+			} catch (e) {
+				console.log(e)
+
+				this.$Loading.finish()
+				this.$vs.loading.close()
+			}
+
+			this.$Loading.finish()
+			this.$vs.loading.close()
+		},
 	},
 }
 </script>
@@ -306,7 +355,9 @@ export default {
 
 		& .main-content {
 			& .form-title {
+				margin-top: 15px;
 				margin-bottom: 15px;
+
 				& .form-title-p {
 					color: white;
 					font-size: 25px;
