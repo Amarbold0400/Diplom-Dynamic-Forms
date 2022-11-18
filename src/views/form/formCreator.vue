@@ -287,7 +287,7 @@ export default {
 		},
 		cloneElement(index, form) {
 			InputCreator.cloneElement(index, form)
-			this.form.questions.push({ text: form.label, order: index })
+			// this.form.questions.push({ text: form.label, order: index })
 		},
 		deleteElement(index) {
 			InputCreator.deleteElement(index)

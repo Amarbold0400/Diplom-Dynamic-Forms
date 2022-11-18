@@ -73,7 +73,7 @@ export default new Vuex.Store({
 			state.activeTabForFields = 'properties'
 		},
 		CLONE_INPUT(state, { idx, cloned }) {
-			state.forms.splice(idx, 0, cloned)
+			state.inputs.splice(idx, 0, cloned)
 		},
 		DELETE_INPUT(state, payload) {
 			state.activeForm = []
