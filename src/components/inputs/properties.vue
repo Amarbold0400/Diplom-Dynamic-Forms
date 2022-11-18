@@ -29,12 +29,9 @@
 				</Input>
 			</FormItem>
 
-			<FormItem
-				label="Button text"
-				v-show="activeForm.hasOwnProperty('buttonText')"
-			>
-				<Input v-model="activeForm.buttonText">
-					{{ activeForm.buttonText }}
+			<FormItem label="Button text" v-show="activeForm.hasOwnProperty('text')">
+				<Input v-model="activeForm.text">
+					{{ activeForm.text }}
 				</Input>
 			</FormItem>
 
@@ -47,12 +44,12 @@
 				</Input>
 			</FormItem>
 
-			<FormItem
+			<!-- <FormItem
 				label="Required field?"
 				v-show="activeForm.hasOwnProperty('isRequired')"
 			>
 				<i-switch v-model="activeForm.isRequired"></i-switch>
-			</FormItem>
+			</FormItem> -->
 
 			<FormItem
 				label="Helpblock"

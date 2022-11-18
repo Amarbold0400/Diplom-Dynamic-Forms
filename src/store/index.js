@@ -55,6 +55,7 @@ export default new Vuex.Store({
 		user: null,
 		// Below are for survey
 		surveys: [],
+		inputs: [],
 	},
 	getters: {
 		themingVars: (state) => state.themingVars,
@@ -63,6 +64,7 @@ export default new Vuex.Store({
 		getCurrentUser: (state) => state.user,
 		isAuthenticated: (state) => !!state.token,
 		getAllSurveys: (state) => state.surveys,
+		getAllInput: (state) => state.inputs,
 	},
 	mutations: {
 		// Below are for survey inputs
@@ -75,20 +77,24 @@ export default new Vuex.Store({
 		},
 		DELETE_INPUT(state, payload) {
 			state.activeForm = []
-			state.activeTabForFields = 'elements'
-			let index = state.forms.findIndex((_, idx) => idx == payload)
-			state.forms.splice(index, 1)
+			// state.activeTabForFields = 'elements'
+			let index = state.inputs.findIndex((_, idx) => idx == payload)
+			state.inputs.splice(index, 1)
 		},
 		SET_EXTRACTED_COLORS(state, payload) {
 			state.extractedColors = payload
 		},
 		// Below are for login and signup
 		LOGOUT(state) {
+			localStorage.removeItem('accessToken')
 			state.token = ''
 			state.user = ''
 		},
 		SET_TOKEN(state, payload) {
 			state.token = payload.access_token
+		},
+		UPDATE_ACCESS_TOKEN(state, payload) {
+			state.token = payload
 		},
 		// Below are for user
 		SET_USER(state, payload) {
@@ -100,6 +106,10 @@ export default new Vuex.Store({
 		},
 		PUSH_SURVEY(state, payload) {
 			state.surveys.push(payload)
+		},
+		SET_INPUTS(state, payload) {
+			console.log(payload)
+			state.inputs = payload
 		},
 	},
 	actions: {
@@ -117,11 +127,15 @@ export default new Vuex.Store({
 			commit('SET_EXTRACTED_COLORS', payload)
 		},
 		// Below are for login and signup
+		fetchAccessToken({ commit }) {
+			commit('UPDATE_ACCESS_TOKEN', localStorage.getItem('accessToken'))
+		},
 		async login({ commit }, payload) {
 			try {
 				vm.$vs.loading({ background: 'rgba(28, 28, 28, 0.6)' })
 				const { data } = await testRepo.login(payload)
 				commit('SET_TOKEN', data)
+				localStorage.setItem('accessToken', data.access_token)
 				vm.$vs.loading.close()
 				setTimeout(() => {
 					vm.$Message.success('Successfully Logged In.')
@@ -139,6 +153,7 @@ export default new Vuex.Store({
 				vm.$vs.loading({ background: 'rgba(28, 28, 28, 0.6)' })
 				const { data } = await testRepo.signup(payload)
 				commit('SET_TOKEN', data)
+				localStorage.setItem('accessToken', data.access_token)
 				vm.$vs.loading.close()
 				setTimeout(() => {
 					vm.$Message.success('Successfully Signed up.')
@@ -168,6 +183,17 @@ export default new Vuex.Store({
 			try {
 				vm.$vs.loading({ background: 'rgba(28, 28, 28, 0.6)' })
 				const { data } = await testRepo.getAllSurveys()
+				data.forEach((element) => {
+					element.questions.map((el) => {
+						el['label'] = el.text
+						el['fieldType'] = el.type
+						delete el.text
+						delete el.type
+						delete el['formId']
+						delete el['order']
+						delete el['id']
+					})
+				})
 				commit('SET_SURVEYS', data)
 				vm.$vs.loading.close()
 			} catch (e) {
@@ -184,6 +210,19 @@ export default new Vuex.Store({
 				console.log(e)
 				return false
 			}
+		},
+		storeAllInputs({ commit }, payload) {
+			payload.map((el) => {
+				el['label'] = el.text
+				el['fieldType'] = el.type
+				delete el.text
+				delete el.type
+				delete el['formId']
+				delete el['order']
+				// delete el['id']
+			})
+			console.log(payload)
+			commit('SET_INPUTS', payload)
 		},
 	},
 })

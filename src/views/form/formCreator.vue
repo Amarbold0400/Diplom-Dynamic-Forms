@@ -23,7 +23,14 @@
 						<i-button
 							type="primary"
 							size="large"
-							@click="$router.push({ name: 'home.preview' })"
+							@click="
+								$router.push({
+									name: 'home.preview',
+									params: {
+										id: $route.params.id,
+									},
+								})
+							"
 						>
 							<!-- deerh click preview uchir route-ee solino formsID params bas nemegdene -->
 							<div class="upper-nav-text flex-line center">
@@ -89,7 +96,7 @@
 			<div class="main-content col-md flex-col center" :style="cssProps">
 				<div class="form-title flex-col center">
 					<p class="form-title-p">
-						{{ form.title == '' ? 'Untitled' : form.title }}
+						{{ form.title }}
 					</p>
 
 					<Input v-model="form.title" size="large" placeholder="Form Title" />
@@ -143,7 +150,7 @@
 								type="primary"
 								size="large"
 								@click="cloneElement(index, form)"
-								v-show="!form.isUnique"
+								v-show="form.fieldType !== 'Button'"
 								>Clone</i-button
 							>
 							<i-button
@@ -172,6 +179,7 @@
 <script>
 import { InputCreator } from '@/components/inputs/inputCreator'
 import Repository from '../../repository/repoFactory'
+import { cloneDeep } from 'lodash'
 const testRepo = Repository.get('test')
 export default {
 	components: InputCreator.$options.components,
@@ -182,14 +190,24 @@ export default {
 			sortElementOptions: InputCreator.$data.sortElementOptions,
 			showProperties: false,
 
+			// form: {
+			// 	title: this.formTitle(),
+			// 	createdBy: this.createdById(),
+			// 	questions: this.surveys(),
+			// },
 			form: {
 				title: '',
-				createdBy: this.createdById(),
-				questions: this.surveys(),
+				createdBy: '',
 			},
 		}
 	},
+	created() {
+		this.fetchSurveyById()
+	},
 	computed: {
+		allSurveys() {
+			return this.$store.getters.getAllSurveys
+		},
 		themingVars() {
 			return this.$store.state.themingVars
 		},
@@ -211,20 +229,48 @@ export default {
 			}
 			return result
 		},
+
 		forms() {
-			return this.$store.state.forms
+			return this.$store.getters.getAllInput
+			// const found = this.$store.getters.getAllSurveys.find(
+			// 	(el) => el.id == this.$route.params.id
+			// )
+			// if (found && found.questions) {
+			// 	return found.questions
+			// } else {
+			// 	return this.$store.state.forms
+			// }
 		},
 		activeForm() {
 			return this.$store.state.activeForm
 		},
+		surveys() {
+			return this.$store.state.inputs
+			// return this.$store.state.forms
+			// const found = this.$store.getters.getAllSurveys.find(
+			// 	(el) => el.id == this.$route.params.id
+			// )
+			// console.log(found)
+			// if (found && found.questions) {
+			// 	const cloned = cloneDeep(found.questions)
+			// 	return cloned
+			// } else {
+			// 	return this.$store.state.forms
+			// }
+		},
 	},
 	methods: {
-		surveys() {
-			// const obj = this.$store.state.forms
-			// const cloned = lodash.cloneDeep(obj)
-			// return cloned
-			return this.$store.state.forms
+		formTitle() {
+			const found = this.$store.getters.getAllSurveys.find(
+				(el) => el.id === this.$route.params.id
+			)
+			if (found) {
+				return found.title
+			} else {
+				return 'Untitled'
+			}
 		},
+
 		createdById() {
 			if (this.$store.getters.getAllSurveys.length === 0) {
 				return null
@@ -234,11 +280,7 @@ export default {
 				).createdBy
 			}
 		},
-		// changeEvent(obj) {
-		// 	console.log(obj)
-		// 	const form = obj.added.element
-		// 	this.form.questions.push({ text: form.label, order: obj.added.newIndex })
-		// },
+
 		editElementProperties(form) {
 			this.showProperties = true
 			InputCreator.editElementProperties(form)
@@ -257,22 +299,27 @@ export default {
 				this.$vs.loading({
 					background: 'rgba(28, 28, 28, 0.6)',
 				})
-				// const { data } = await testRepo.updateSurvey(this.form)
 				const { data } = await testRepo.updateSurvey({
 					...this.form,
+					questions: this.surveys,
 					id: this.$route.params.id,
 				})
-				console.log(data)
-				// this.$store.dispatch('saveExtractColors', data.colors)
+				this.$store.dispatch('storeAllInputs', data.questions)
 			} catch (e) {
 				console.log(e)
-
 				this.$Loading.finish()
 				this.$vs.loading.close()
 			}
 
 			this.$Loading.finish()
 			this.$vs.loading.close()
+		},
+		async fetchSurveyById() {
+			const { data } = await testRepo.getSurveyById(this.$route.params.id)
+			this.form.title = data.title
+			this.form.createdBy = data.surveyorId
+			this.$store.dispatch('storeAllInputs', data.questions)
+			// this.$store.dispatch('fetchAllSurveys')
 		},
 	},
 }

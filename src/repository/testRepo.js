@@ -20,9 +20,18 @@ export default {
 			},
 		})
 	},
+	// Below are for Survey
 	getAllSurveys() {
 		const token = vm.$store.getters.getToken
 		return Client.get('allSurveys', {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
+	getSurveyById(id) {
+		const token = vm.$store.getters.getToken
+		return Client.get(`survey/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -47,25 +56,24 @@ export default {
 	},
 	updateSurvey(payload) {
 		const token = vm.$store.getters.getToken
-		const userId = vm.$store.getters.getCurrentUser
-		// console.log(payload)
-		// const questions = payload.questions.forEach((el) => {
-		// 	delete el['fieldType']
-		// 	delete el['helpBlockText']
-		// 	delete el['isHelpBlockVisible']
-		// 	delete el['isPlaceholderVisible']
-		// 	delete el['isRequired']
-		// 	delete el['isUnique']
-		// 	delete el['placeholder']
-		// 	el['order'] = i
-		// 	el.text = el.label
-		// 	delete el.label
-		// })
-		console.log(payload)
+
+		payload.questions.forEach((el, i) => {
+			if (el.fieldType === 'RadioInput') {
+				el.options.map((opt) => {
+					opt['text'] = opt.optionValue
+					delete opt['optionLabel']
+					delete opt['optionValue']
+				})
+			}
+			el['order'] = i
+			el['text'] = el.label
+			el['type'] = el.fieldType
+			delete el.label
+		})
 		return Client.put(
 			`survey/${payload.id}`,
 			{
-				formId: payload.id,
+				formId: parseInt(payload.id),
 				title: payload.title,
 				createdBy: payload.createdBy,
 				questions: payload.questions,

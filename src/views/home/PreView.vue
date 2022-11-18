@@ -13,7 +13,14 @@
 						<div class="upper-nav-text flex-line center">
 							<i
 								class="isax isax-arrow-left"
-								@click="$router.push({ name: 'create.form.creator' })"
+								@click="
+									$router.push({
+										name: 'create.form.creator',
+										params: {
+											id: $route.params.id,
+										},
+									})
+								"
 							/></div
 					></i-button>
 				</div>
@@ -49,6 +56,7 @@
 						{{ form.helpBlockText }}
 					</small>
 				</div>
+				<i-button style="width: 500px; height: 40px">Submit</i-button>
 			</div>
 		</div>
 	</div>
@@ -56,13 +64,35 @@
 
 <script>
 import { InputCreator } from '@/components/inputs/inputCreator'
-
+import { cloneDeep } from 'lodash'
 export default {
 	name: 'Preview',
 	components: InputCreator.$options.components,
+	created() {
+		if (this.$store.getters.getAllSurveys.length === 0) {
+			this.$store.dispatch('fetchAllSurveys')
+		}
+	},
 	computed: {
+		// forms() {
+		// 	return this.$store.state.forms
+		// },
+
 		forms() {
-			return this.$store.state.forms
+			return this.$store.getters.getAllInput
+			// return this.$store.state.forms
+			// const found = this.$store.getters.getAllSurveys.find(
+			// 	(el) => el.id == this.$route.params.id
+			// )
+			// console.log(found)
+			// if (found && found.questions) {
+			// 	const cloned = cloneDeep(found.questions)
+			// 	return cloned
+			// 	// TODO front-oos yavj baigaa form-iin propertynuudtai adil back-iig yanzlah
+			// 	// return this.$store.state.surveys
+			// } else {
+			// 	return this.$store.state.forms
+			// }
 		},
 		themingVars() {
 			return this.$store.state.themingVars
@@ -99,7 +129,7 @@ export default {
 			height: 100%;
 
 			& .form__group {
-				min-height: 170px;
+				min-height: 100px;
 				width: 500px;
 				// border: 1px solid;
 				border-radius: 8px;

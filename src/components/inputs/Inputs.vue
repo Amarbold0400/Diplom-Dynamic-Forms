@@ -50,7 +50,7 @@ export default {
 		clone(field) {
 			var newField = {
 				fieldType: field.name,
-				isUnique: field.isUnique,
+				// isUnique: field.isUnique,
 			}
 
 			// Show placeholder
@@ -62,13 +62,13 @@ export default {
 			// Decide whether display label, required field, helpblock
 			if (field.group == 'form') {
 				newField['label'] = 'Enter your field label'
-				newField['isHelpBlockVisible'] = false
-				newField['helpBlockText'] = 'Please input your helpblock here...'
+				// newField['isHelpBlockVisible'] = false
+				// newField['helpBlockText'] = 'Please input your helpblock here...'
 				newField['isRequired'] = false
 			}
 
 			if (field.group == 'button') {
-				newField['buttonText'] = 'Submit your form'
+				newField['text'] = 'Submit your form'
 			}
 
 			if (field.name == 'TextEditor') {

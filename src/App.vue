@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import navbar from '@/components/global/navbar.vue'
 
 export default {
@@ -17,9 +18,13 @@ export default {
 	components: {
 		navbar,
 	},
-	// created() {
-	// 	Vue.prototype.$vs = this.$vs
-	// },
+	created() {
+		this.fetchAccessToken()
+	},
+
+	methods: {
+		...mapActions(['fetchAccessToken']),
+	},
 	computed: {
 		isNotCreator() {
 			return this.$route.name == 'create.form.creator'

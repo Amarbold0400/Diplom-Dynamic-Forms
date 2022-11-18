@@ -13,7 +13,7 @@ const routes = [
 		component: page('home/HomeView.vue'),
 	},
 	{
-		path: '/preview',
+		path: '/preview/:id',
 		name: 'home.preview',
 		component: page('home/PreView.vue'),
 	},

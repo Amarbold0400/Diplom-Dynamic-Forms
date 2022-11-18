@@ -5,6 +5,9 @@ import draggable from 'vuedraggable'
 
 import RadioInput from '@/components/inputs/RadioInput'
 import TextInput from '@/components/inputs/TextInput'
+import NumberInput from '@/components/inputs/NumberInput'
+import Button from '@/components/inputs/FormButton'
+import FormDate from '@/components/inputs/FormDate'
 
 import Inputs from '@/components/inputs/Inputs.vue'
 import Properties from '@/components/inputs/properties.vue'
@@ -16,6 +19,9 @@ export const InputCreator = new Vue({
 		draggable,
 		RadioInput,
 		TextInput,
+		NumberInput,
+		FormDate,
+		Button,
 		Properties,
 		Design,
 	},
@@ -27,21 +33,51 @@ export const InputCreator = new Vue({
 					text: 'Text',
 					group: 'form', //form group
 					hasOptions: false,
-					isRequired: false,
-					isHelpBlockVisible: false,
 					isPlaceholderVisible: true,
-					isUnique: false,
+					// isRequired: false,
+					// isHelpBlockVisible: false,
+					// isUnique: false,
 				},
 				{
-					name: 'RadioInput',
-					text: 'Radio',
+					name: 'NumberInput',
+					text: 'Number',
 					group: 'form',
-					hasOptions: true,
+					hasOptions: false,
 					isRequired: false,
 					isHelpBlockVisible: false,
 					isPlaceholderVisible: false,
 					isUnique: false,
 				},
+				{
+					name: 'Button',
+					text: 'Button',
+					group: 'button',
+					hasOptions: false,
+					isRequired: false,
+					isHelpBlockVisible: false,
+					isPlaceholderVisible: false,
+					isUnique: true,
+				},
+				{
+					name: 'FormDate',
+					text: 'Date Picker',
+					group: 'form',
+					hasOptions: false,
+					isRequired: false,
+					isHelpBlockVisible: false,
+					isPlaceholderVisible: false,
+					isUnique: false,
+				},
+				// {
+				// 	name: 'RadioInput',
+				// 	text: 'Radio',
+				// 	group: 'form',
+				// 	hasOptions: true,
+				// 	isPlaceholderVisible: false,
+				// 	// isRequired: false,
+				// 	// isHelpBlockVisible: false,
+				// 	// isUnique: false,
+				// },
 			],
 
 			sortElementOptions: {
@@ -66,8 +102,8 @@ export const InputCreator = new Vue({
 			var cloned = lodash.cloneDeep(form) // clone deep lodash
 			vm.$store.dispatch('cloneInput', { idx: index, cloned: cloned })
 		},
-		deleteElement(index) {
-			vm.$store.dispatch('deleteInput', index)
+		deleteElement(payload) {
+			vm.$store.dispatch('deleteInput', payload)
 		},
 	},
 })
