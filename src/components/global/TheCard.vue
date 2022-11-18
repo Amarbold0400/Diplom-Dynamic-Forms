@@ -10,11 +10,22 @@
 			})
 		"
 	>
+		<Modal
+			v-model="modal1"
+			title="Are you sure to delete?"
+			@on-ok="deleteSurvey"
+			@on-cancel="modal1 = false"
+		>
+		</Modal>
 		<div class="form-title flex-line center mt-md">{{ title }}</div>
 		<div class="form-controls flex-line between width-100 mb-sm">
-			<div class="results ml-tn" @click="showResults">Results : 0</div>
+			<div class="results ml-tn" @click="showResults">
+				Results : {{ formResults }}
+			</div>
 
-			<i class="isax isax-trash mr-tn" style="color: white"></i>
+			<div class="delete-btn" @click.stop="modal1 = true">
+				<i class="isax isax-trash mr-tn" style="color: white"></i>
+			</div>
 		</div>
 	</div>
 </template>
@@ -28,9 +39,21 @@ export default {
 		title: {
 			type: String,
 		},
-		// results: {
-		// 	type: Array,
-		// },
+	},
+	data() {
+		return {
+			modal1: false,
+		}
+	},
+	computed: {
+		formResults() {
+			if (this.$store.getters.getAllSurveys.length > 0) {
+				const found = this.$store.getters.getAllSurveys.find(
+					(el) => el.id === this.id
+				)
+				return found.results.length
+			}
+		},
 	},
 	methods: {
 		showResults() {
@@ -41,12 +64,17 @@ export default {
 				},
 			})
 		},
+		deleteSurvey() {
+			this.$store.dispatch('deleteSurveyById', this.id)
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
 .card-wrapper {
+	position: relative;
+	z-index: 0;
 	min-height: 140px;
 	background: #151515;
 	border-radius: 8px;
@@ -58,6 +86,13 @@ export default {
 	}
 
 	& .form-controls {
+		position: relative;
+		& .delete-btn {
+			position: absolute;
+			right: 0;
+			z-index: 15;
+		}
+
 		& .results,
 		i {
 			padding: 5px;

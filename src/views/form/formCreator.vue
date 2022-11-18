@@ -179,8 +179,8 @@
 <script>
 import { InputCreator } from '@/components/inputs/inputCreator'
 import Repository from '../../repository/repoFactory'
-import { cloneDeep } from 'lodash'
 const testRepo = Repository.get('test')
+import { cloneDeep } from 'lodash'
 export default {
 	components: InputCreator.$options.components,
 	data() {

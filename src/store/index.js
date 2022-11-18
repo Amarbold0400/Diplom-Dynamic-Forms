@@ -107,8 +107,17 @@ export default new Vuex.Store({
 		PUSH_SURVEY(state, payload) {
 			state.surveys.push(payload)
 		},
+		DELETE_SURVEY(state, payload) {
+			const indexOfObject = state.surveys.findIndex((object) => {
+				return object.id === payload
+			})
+			console.log(indexOfObject)
+			state.surveys.splice(indexOfObject, 1)
+
+			// state.surveys
+		},
 		SET_INPUTS(state, payload) {
-			console.log(payload)
+			// console.log(payload)
 			state.inputs = payload
 		},
 	},
@@ -201,6 +210,19 @@ export default new Vuex.Store({
 				console.log(e)
 			}
 		},
+		async deleteSurveyById({ commit }, payload) {
+			try {
+				vm.$vs.loading({ background: 'rgba(28, 28, 28, 0.6)' })
+				const { data } = await testRepo.deleteSurvey(payload)
+				commit('DELETE_SURVEY', data)
+				vm.$vs.loading.close()
+				return data
+			} catch (e) {
+				vm.$vs.loading.close()
+				console.log(e)
+				return false
+			}
+		},
 		async createSurveyInit({ commit }) {
 			try {
 				const { data } = await testRepo.createSurvey()
@@ -221,7 +243,7 @@ export default new Vuex.Store({
 				delete el['order']
 				// delete el['id']
 			})
-			console.log(payload)
+			// console.log(payload)
 			commit('SET_INPUTS', payload)
 		},
 	},

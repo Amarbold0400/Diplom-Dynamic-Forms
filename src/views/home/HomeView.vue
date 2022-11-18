@@ -10,10 +10,17 @@
 				>
 			</div>
 			<div class="home-main-content">
-				<!-- <the-card class="col-md-3" /> -->
-				<div v-if="allSurveys.length > 0" class="row">
+				<div v-if="allSurveys.length > 0" class="row" style="gap: 15px">
 					<the-card
 						v-for="(survey, i) in allSurveys"
+						@click="
+							$router.push({
+								name: 'create.form.creator',
+								params: {
+									id: survey.id,
+								},
+							})
+						"
 						class="col-md-3"
 						:key="'survey ' + survey"
 						:id="survey.id"

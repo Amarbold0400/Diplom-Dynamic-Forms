@@ -85,6 +85,22 @@ export default {
 			}
 		)
 	},
+	deleteSurvey(payload) {
+		const token = vm.$store.getters.getToken
+		return Client.delete(`survey/${payload}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
+	// Below are for result
+	saveResult(payload) {
+		return Client.post(`saveResult/${parseInt(payload.id)}`, {
+			formId: parseInt(payload.id),
+			surveyeeNick: payload.surveyeeNick,
+			answers: [...payload.answer],
+		})
+	},
 }
 
 // const resource = '/posts'

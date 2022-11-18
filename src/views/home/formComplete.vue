@@ -1,31 +1,5 @@
 <template>
 	<div class="form-creator-container">
-		<div class="form-upper-content-wrapper container width-100">
-			<div class="form-creator-content">
-				<div class="upper-content flex-col start">
-					<i-button
-						class="mr-sm"
-						type="primary"
-						size="large"
-						@click="$router.push({ name: 'create.form.creator' })"
-					>
-						<!-- tuhain form-iin id ni paramsaar orno deerh click deer -->
-						<div class="upper-nav-text flex-line center">
-							<i
-								class="isax isax-arrow-left"
-								@click="
-									$router.push({
-										name: 'create.form.creator',
-										params: {
-											id: $route.params.id,
-										},
-									})
-								"
-							/></div
-					></i-button>
-				</div>
-			</div>
-		</div>
 		<div class="form-main-content-wrapper">
 			<div
 				class="main-content preview col-md flex-col center"
@@ -53,6 +27,7 @@
 						:is="form.fieldType"
 						:currentField="form"
 						class="form__field"
+						v-model="models[index].answer"
 					>
 					</component>
 
@@ -64,7 +39,18 @@
 						{{ form.helpBlockText }}
 					</small>
 				</div>
-				<i-button style="width: 500px; height: 40px">Submit</i-button>
+
+				<h4 style="color: white">Nick Name:</h4>
+				<Input
+					class="mt-ten mb-tn"
+					style="width: 500px"
+					placeholder="Enter Nick Name here..."
+					v-model="nickName"
+				>
+				</Input>
+				<i-button style="width: 500px; height: 40px" @click="submitAnswer"
+					>Submit</i-button
+				>
 			</div>
 		</div>
 	</div>
@@ -74,9 +60,8 @@
 import { InputCreator } from '@/components/inputs/inputCreator'
 import Repository from '../../repository/repoFactory'
 const testRepo = Repository.get('test')
-import { cloneDeep } from 'lodash'
 export default {
-	name: 'Preview',
+	name: 'FormComplete',
 	components: InputCreator.$options.components,
 	created() {
 		this.fetchSurveyById()
@@ -87,28 +72,24 @@ export default {
 	data() {
 		return {
 			title: '',
+			model: '',
+			nickName: '',
 		}
 	},
 	computed: {
-		// forms() {
-		// 	return this.$store.state.forms
-		// },
-
+		models() {
+			let arr = []
+			const len = this.forms.length
+			for (var i = 0; i < len; i++) {
+				arr.push({
+					questionId: this.forms[i].id,
+					answer: null,
+				})
+			}
+			return arr
+		},
 		forms() {
 			return this.$store.getters.getAllInput
-			// return this.$store.state.forms
-			// const found = this.$store.getters.getAllSurveys.find(
-			// 	(el) => el.id == this.$route.params.id
-			// )
-			// console.log(found)
-			// if (found && found.questions) {
-			// 	const cloned = cloneDeep(found.questions)
-			// 	return cloned
-			// 	// TODO front-oos yavj baigaa form-iin propertynuudtai adil back-iig yanzlah
-			// 	// return this.$store.state.surveys
-			// } else {
-			// 	return this.$store.state.forms
-			// }
 		},
 		themingVars() {
 			return this.$store.state.themingVars
@@ -138,7 +119,13 @@ export default {
 			const { data } = await testRepo.getSurveyById(this.$route.params.id)
 			this.title = data.title
 			this.$store.dispatch('storeAllInputs', data.questions)
-			// this.$store.dispatch('fetchAllSurveys')
+		},
+		async submitAnswer() {
+			await testRepo.saveResult({
+				id: this.$route.params.id,
+				surveyeeNick: this.nickName,
+				answer: [...this.models],
+			})
 		},
 	},
 }
@@ -152,6 +139,14 @@ export default {
 		& .main-content {
 			&.preview {
 				height: 100%;
+			}
+
+			& .form-title {
+				& .form-title-p {
+					font-size: 40px;
+					color: white;
+				}
+				margin-bottom: 30px;
 			}
 
 			& .form__group {

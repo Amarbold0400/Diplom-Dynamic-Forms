@@ -18,6 +18,11 @@ const routes = [
 		component: page('home/PreView.vue'),
 	},
 	{
+		path: '/form/:id',
+		name: 'form.complete',
+		component: page('home/formComplete.vue'),
+	},
+	{
 		path: '/login',
 		name: 'login.index',
 		component: page('login/loginPage.vue'),
@@ -39,6 +44,7 @@ const routes = [
 		name: 'form.result',
 		component: page('form/formResult.vue'),
 	},
+
 	{
 		path: '*',
 		name: 'notFound',

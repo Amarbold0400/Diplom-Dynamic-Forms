@@ -5,6 +5,8 @@
 			:placeholder="
 				currentField.isPlaceholderVisible ? currentField.placeholder : ''
 			"
+			:value="value"
+			@on-change="onChange($event.target.value)"
 		>
 		</Input>
 	</div>
@@ -13,6 +15,13 @@
 <script>
 export default {
 	name: 'TextInput',
-	props: ['currentField'],
+	props: ['currentField', 'value'],
+	emits: ['update:modelValue'],
+	methods: {
+		onChange(value) {
+			console.log('changin2')
+			this.$emit('input', value)
+		},
+	},
 }
 </script>
