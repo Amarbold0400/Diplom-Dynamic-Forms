@@ -91,6 +91,7 @@
 						Choose an input
 					</div>
 					<design v-if="active == 2"></design>
+					<share v-if="active == 3"></share>
 				</transition>
 			</div>
 			<div class="main-content col-md flex-col center" :style="cssProps">
@@ -190,15 +191,12 @@ export default {
 			sortElementOptions: InputCreator.$data.sortElementOptions,
 			showProperties: false,
 
-			// form: {
-			// 	title: this.formTitle(),
-			// 	createdBy: this.createdById(),
-			// 	questions: this.surveys(),
-			// },
 			form: {
 				title: '',
 				createdBy: '',
 			},
+
+			css: null,
 		}
 	},
 	created() {
@@ -212,51 +210,50 @@ export default {
 			return this.$store.state.themingVars
 		},
 		cssProps() {
-			var result = {},
-				themingVars = this.themingVars
+			if (this.css === null) {
+				let result = {},
+					themingVars = this.themingVars
 
-			for (var v in themingVars) {
-				if (themingVars.hasOwnProperty(v)) {
-					var newV = '--theme-' + _.kebabCase(v),
-						suffix = ''
+				for (let v in themingVars) {
+					if (themingVars.hasOwnProperty(v)) {
+						let newV = '--theme-' + _.kebabCase(v),
+							suffix = ''
 
-					if (_.includes(newV, 'size')) suffix = 'px'
-					else if (_.includes(newV, 'margin')) suffix = 'px'
-					else if (_.includes(newV, 'radius')) suffix = 'px'
+						if (_.includes(newV, 'size')) suffix = 'px'
+						else if (_.includes(newV, 'margin')) suffix = 'px'
+						else if (_.includes(newV, 'radius')) suffix = 'px'
 
-					result[newV] = themingVars[v] + suffix
+						result[newV] = themingVars[v] + suffix
+					}
 				}
+
+				return result
+			} else {
+				delete this.css['formId']
+				delete this.css['id']
+
+				Object.keys(this.css).forEach((e) => {
+					this.css[this.kebabize(e)] = this.css[e]
+					delete this.css[e]
+				})
+
+				Object.keys(this.css).forEach((e) => {
+					this.css['--' + e] = this.css[e]
+					delete this.css[e]
+				})
+
+				return this.css
 			}
-			return result
 		},
 
 		forms() {
 			return this.$store.getters.getAllInput
-			// const found = this.$store.getters.getAllSurveys.find(
-			// 	(el) => el.id == this.$route.params.id
-			// )
-			// if (found && found.questions) {
-			// 	return found.questions
-			// } else {
-			// 	return this.$store.state.forms
-			// }
 		},
 		activeForm() {
 			return this.$store.state.activeForm
 		},
 		surveys() {
 			return this.$store.state.inputs
-			// return this.$store.state.forms
-			// const found = this.$store.getters.getAllSurveys.find(
-			// 	(el) => el.id == this.$route.params.id
-			// )
-			// console.log(found)
-			// if (found && found.questions) {
-			// 	const cloned = cloneDeep(found.questions)
-			// 	return cloned
-			// } else {
-			// 	return this.$store.state.forms
-			// }
 		},
 	},
 	methods: {
@@ -270,7 +267,6 @@ export default {
 				return 'Untitled'
 			}
 		},
-
 		createdById() {
 			if (this.$store.getters.getAllSurveys.length === 0) {
 				return null
@@ -287,7 +283,6 @@ export default {
 		},
 		cloneElement(index, form) {
 			InputCreator.cloneElement(index, form)
-			// this.form.questions.push({ text: form.label, order: index })
 		},
 		deleteElement(index) {
 			InputCreator.deleteElement(index)
@@ -303,6 +298,7 @@ export default {
 					...this.form,
 					questions: this.surveys,
 					id: this.$route.params.id,
+					css: this.cssProps,
 				})
 				this.$store.dispatch('storeAllInputs', data.questions)
 			} catch (e) {
@@ -318,8 +314,18 @@ export default {
 			const { data } = await testRepo.getSurveyById(this.$route.params.id)
 			this.form.title = data.title
 			this.form.createdBy = data.surveyorId
+			this.css = data.css
 			this.$store.dispatch('storeAllInputs', data.questions)
-			// this.$store.dispatch('fetchAllSurveys')
+		},
+		kebabize(str) {
+			return str
+				.split('')
+				.map((letter, idx) => {
+					return letter.toUpperCase() === letter
+						? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
+						: letter
+				})
+				.join('')
 		},
 	},
 }

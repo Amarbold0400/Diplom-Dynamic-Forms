@@ -12,6 +12,9 @@ import '../src/static/iconsax/style.css'
 Vue.use(iView)
 Vue.use(Vuesax)
 
+import vueCustomElement from 'vue-custom-element'
+Vue.use(vueCustomElement)
+
 import VueLodash from 'vue-lodash'
 Vue.use(VueLodash)
 

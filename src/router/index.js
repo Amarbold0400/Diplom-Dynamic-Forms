@@ -18,7 +18,7 @@ const routes = [
 		component: page('home/PreView.vue'),
 	},
 	{
-		path: '/form/:id',
+		path: '/formComplete/:id',
 		name: 'form.complete',
 		component: page('home/formComplete.vue'),
 	},

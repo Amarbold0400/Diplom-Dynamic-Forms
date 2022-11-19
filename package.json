@@ -12,6 +12,7 @@
 		"lodash": "^4.17.21",
 		"node-sass": "^7.0.3",
 		"vue": "^2.6.14",
+		"vue-custom-element": "^3.3.0",
 		"vue-lodash": "^2.1.2",
 		"vue-router": "^3.5.1",
 		"vuedraggable": "^2.24.3",
@@ -27,7 +28,7 @@
 		"sass-loader": "^10.2.1",
 		"vue-loader": "^17.0.0",
 		"vue-template-compiler": "^2.7.13",
-		"webpack": "^5.74.0"
+		"webpack": "^5.75.0"
 	},
 	"browserslist": [
 		"> 1%",

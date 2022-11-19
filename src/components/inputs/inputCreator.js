@@ -12,6 +12,7 @@ import FormDate from '@/components/inputs/FormDate'
 import Inputs from '@/components/inputs/Inputs.vue'
 import Properties from '@/components/inputs/properties.vue'
 import Design from '@/components/inputs/design.vue'
+import Share from '@/components/inputs/share.vue'
 
 export const InputCreator = new Vue({
 	components: {
@@ -24,6 +25,7 @@ export const InputCreator = new Vue({
 		Button,
 		Properties,
 		Design,
+		Share,
 	},
 	data() {
 		return {

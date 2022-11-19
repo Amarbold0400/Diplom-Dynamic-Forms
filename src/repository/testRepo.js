@@ -2,7 +2,12 @@ import Client from '../clients/axiosClient'
 
 export default {
 	extractCss(payload) {
-		return Client.post(`extractCss`, payload)
+		const token = vm.$store.getters.getToken
+		return Client.post(`extractCss`, payload, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
 	},
 	// Below are for signup and login
 	signup(payload) {
@@ -54,7 +59,9 @@ export default {
 			}
 		)
 	},
+
 	updateSurvey(payload) {
+		console.log(payload.css)
 		const token = vm.$store.getters.getToken
 
 		payload.questions.forEach((el, i) => {
@@ -70,6 +77,17 @@ export default {
 			el['type'] = el.fieldType
 			delete el.label
 		})
+
+		Object.keys(payload.css).forEach((e) => {
+			payload.css[e.substring(2)] = payload.css[e]
+			delete payload.css[e]
+		})
+
+		Object.keys(payload.css).forEach((e) => {
+			payload.css[e.replace(/-./g, (x) => x[1].toUpperCase())] = payload.css[e]
+			delete payload.css[e]
+		})
+
 		return Client.put(
 			`survey/${payload.id}`,
 			{
@@ -77,6 +95,7 @@ export default {
 				title: payload.title,
 				createdBy: payload.createdBy,
 				questions: payload.questions,
+				css: payload.css,
 			},
 			{
 				headers: {

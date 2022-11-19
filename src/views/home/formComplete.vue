@@ -74,6 +74,7 @@ export default {
 			title: '',
 			model: '',
 			nickName: '',
+			css: null,
 		}
 	},
 	computed: {
@@ -95,29 +96,57 @@ export default {
 			return this.$store.state.themingVars
 		},
 		cssProps() {
-			let result = {},
-				themingVars = this.themingVars
+			if (this.css === null) {
+				let result = {},
+					themingVars = this.themingVars
 
-			for (let v in themingVars) {
-				if (themingVars.hasOwnProperty(v)) {
-					let newV = '--theme-' + _.kebabCase(v),
-						suffix = ''
+				for (let v in themingVars) {
+					if (themingVars.hasOwnProperty(v)) {
+						let newV = '--theme-' + _.kebabCase(v),
+							suffix = ''
 
-					if (_.includes(newV, 'size')) suffix = 'px'
-					else if (_.includes(newV, 'margin')) suffix = 'px'
-					else if (_.includes(newV, 'radius')) suffix = 'px'
+						if (_.includes(newV, 'size')) suffix = 'px'
+						else if (_.includes(newV, 'margin')) suffix = 'px'
+						else if (_.includes(newV, 'radius')) suffix = 'px'
 
-					result[newV] = themingVars[v] + suffix
+						result[newV] = themingVars[v] + suffix
+					}
 				}
-			}
 
-			return result
+				return result
+			} else {
+				delete this.css['formId']
+				delete this.css['id']
+
+				Object.keys(this.css).forEach((e) => {
+					this.css[this.kebabize(e)] = this.css[e]
+					delete this.css[e]
+				})
+
+				Object.keys(this.css).forEach((e) => {
+					this.css['--' + e] = this.css[e]
+					delete this.css[e]
+				})
+
+				return this.css
+			}
 		},
 	},
 	methods: {
+		kebabize(str) {
+			return str
+				.split('')
+				.map((letter, idx) => {
+					return letter.toUpperCase() === letter
+						? `${idx !== 0 ? '-' : ''}${letter.toLowerCase()}`
+						: letter
+				})
+				.join('')
+		},
 		async fetchSurveyById() {
 			const { data } = await testRepo.getSurveyById(this.$route.params.id)
 			this.title = data.title
+			this.css = data.css
 			this.$store.dispatch('storeAllInputs', data.questions)
 		},
 		async submitAnswer() {
