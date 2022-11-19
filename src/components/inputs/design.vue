@@ -268,6 +268,7 @@
 <script>
 import Repository from '../../repository/repoFactory'
 const testRepo = Repository.get('test')
+import { cloneDeep } from 'lodash'
 export default {
 	name: 'Design',
 	data() {
@@ -380,6 +381,10 @@ export default {
 		// 	this.$Loading.finish()
 		// 	this.$vs.loading.close()
 		// },
+		testRemove(e) {
+			let number = e.replace(/\D/g, '')
+			return number
+		},
 		async testExtract() {
 			try {
 				this.$Loading.start()

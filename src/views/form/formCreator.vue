@@ -210,40 +210,58 @@ export default {
 			return this.$store.state.themingVars
 		},
 		cssProps() {
-			if (this.css === null) {
-				let result = {},
-					themingVars = this.themingVars
+			let result = {},
+				themingVars = this.themingVars
 
-				for (let v in themingVars) {
-					if (themingVars.hasOwnProperty(v)) {
-						let newV = '--theme-' + _.kebabCase(v),
-							suffix = ''
+			for (let v in themingVars) {
+				if (themingVars.hasOwnProperty(v)) {
+					let newV = '--theme-' + _.kebabCase(v),
+						suffix = ''
 
-						if (_.includes(newV, 'size')) suffix = 'px'
-						else if (_.includes(newV, 'margin')) suffix = 'px'
-						else if (_.includes(newV, 'radius')) suffix = 'px'
+					if (_.includes(newV, 'size')) suffix = 'px'
+					else if (_.includes(newV, 'margin')) suffix = 'px'
+					else if (_.includes(newV, 'radius')) suffix = 'px'
 
-						result[newV] = themingVars[v] + suffix
-					}
+					result[newV] = themingVars[v] + suffix
 				}
-
-				return result
-			} else {
-				delete this.css['formId']
-				delete this.css['id']
-
-				Object.keys(this.css).forEach((e) => {
-					this.css[this.kebabize(e)] = this.css[e]
-					delete this.css[e]
-				})
-
-				Object.keys(this.css).forEach((e) => {
-					this.css['--' + e] = this.css[e]
-					delete this.css[e]
-				})
-
-				return this.css
 			}
+
+			return result
+
+			// if (this.css === null) {
+			// 	let result = {},
+			// 		themingVars = this.themingVars
+
+			// 	for (let v in themingVars) {
+			// 		if (themingVars.hasOwnProperty(v)) {
+			// 			let newV = '--theme-' + _.kebabCase(v),
+			// 				suffix = ''
+
+			// 			if (_.includes(newV, 'size')) suffix = 'px'
+			// 			else if (_.includes(newV, 'margin')) suffix = 'px'
+			// 			else if (_.includes(newV, 'radius')) suffix = 'px'
+
+			// 			result[newV] = themingVars[v] + suffix
+			// 		}
+			// 	}
+
+			// 	return result
+			// } else {
+			// 	delete this.css['formId']
+			// 	delete this.css['id']
+
+			// 	Object.keys(this.css).forEach((e) => {
+			// 		this.css[this.kebabize(e)] = this.css[e]
+			// 		delete this.css[e]
+			// 	})
+
+			// 	Object.keys(this.css).forEach((e) => {
+			// 		this.css['--' + e] = this.css[e]
+			// 		delete this.css[e]
+			// 	})
+
+			// 	return this.css
+			// }
 		},
 
 		forms() {
@@ -314,8 +332,34 @@ export default {
 			const { data } = await testRepo.getSurveyById(this.$route.params.id)
 			this.form.title = data.title
 			this.form.createdBy = data.surveyorId
-			this.css = data.css
+
+			if (data.css !== null) {
+				delete data.css['formId']
+				delete data.css['id']
+
+				Object.keys(data.css).forEach((e) => {
+					let replaced = e.replace('theme', '')
+					data.css[replaced] = data.css[e]
+					delete data.css[e]
+				})
+
+				Object.keys(data.css).forEach((e) => {
+					data.css[this.camelize(e)] = data.css[e]
+					delete data.css[e]
+				})
+
+				this.$store.dispatch('storeThemingVars', data.css)
+			}
+
 			this.$store.dispatch('storeAllInputs', data.questions)
+		},
+
+		camelize(str) {
+			return str
+				.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+					return index === 0 ? word.toLowerCase() : word.toUpperCase()
+				})
+				.replace(/\s+/g, '')
 		},
 		kebabize(str) {
 			return str

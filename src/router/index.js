@@ -7,14 +7,14 @@ const page = (path) => () =>
 	import(`../views/${path}`).then((m) => m.default || m)
 
 const routes = [
+	// {
+	// 	path: '/:id',
+	// 	redirect: (to) => {
+	// 		return { path: '/formComplete/:id' }
+	// 	},
+	// },
 	{
-		path: '/:id',
-		redirect: (to) => {
-			return { path: '/formComplete/:id' }
-		},
-	},
-	{
-		path: '/index/home',
+		path: '/',
 		name: 'HomeView',
 		component: page('home/HomeView.vue'),
 	},

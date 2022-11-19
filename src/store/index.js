@@ -56,6 +56,7 @@ export default new Vuex.Store({
 		// Below are for survey
 		surveys: [],
 		inputs: [],
+		results: [],
 	},
 	getters: {
 		themingVars: (state) => state.themingVars,
@@ -65,6 +66,7 @@ export default new Vuex.Store({
 		isAuthenticated: (state) => !!state.token,
 		getAllSurveys: (state) => state.surveys,
 		getAllInput: (state) => state.inputs,
+		getAllResults: (state) => state.results,
 	},
 	mutations: {
 		// Below are for survey inputs
@@ -119,6 +121,13 @@ export default new Vuex.Store({
 		SET_INPUTS(state, payload) {
 			// console.log(payload)
 			state.inputs = payload
+		},
+		SET_THEMING_VARS(state, payload) {
+			state.themingVars = payload
+		},
+		// Below are for results
+		SET_RESULTS(state, payload) {
+			state.results = payload
 		},
 	},
 	actions: {
@@ -245,6 +254,20 @@ export default new Vuex.Store({
 			})
 			// console.log(payload)
 			commit('SET_INPUTS', payload)
+		},
+		storeThemingVars({ commit }, payload) {
+			commit('SET_THEMING_VARS', payload)
+		},
+		// Below are for results
+		async fetchAllResults({ commit }, payload) {
+			try {
+				const { data } = await testRepo.getAllResultsByFormId(payload)
+				commit('SET_RESULTS', data)
+				return data
+			} catch (e) {
+				console.log(e)
+				return false
+			}
 		},
 	},
 })

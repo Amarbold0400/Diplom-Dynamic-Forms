@@ -120,6 +120,30 @@ export default {
 			answers: [...payload.answer],
 		})
 	},
+	getAllResultsByFormId(payload) {
+		const token = vm.$store.getters.getToken
+		return Client.get(`result/${parseInt(payload)}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
+	getAnswerByResultId(payload) {
+		const token = vm.$store.getters.getToken
+		return Client.get(`answer/${parseInt(payload)}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
+	getAllAnswerByResultId(payload) {
+		const token = vm.$store.getters.getToken
+		return Client.get(`answers/${parseInt(payload)}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+	},
 }
 
 // const resource = '/posts'

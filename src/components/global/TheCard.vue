@@ -20,7 +20,7 @@
 		<div class="form-title flex-line center mt-md">{{ title }}</div>
 		<div class="form-controls flex-line between width-100 mb-sm">
 			<div class="results ml-tn" @click="showResults">
-				Results : {{ formResults }}
+				Responses : {{ formResults }}
 			</div>
 
 			<div class="delete-btn" @click.stop="modal1 = true">
