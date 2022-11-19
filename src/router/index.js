@@ -8,7 +8,13 @@ const page = (path) => () =>
 
 const routes = [
 	{
-		path: '/',
+		path: '/:id',
+		redirect: (to) => {
+			return { path: '/formComplete/:id' }
+		},
+	},
+	{
+		path: '/index/home',
 		name: 'HomeView',
 		component: page('home/HomeView.vue'),
 	},

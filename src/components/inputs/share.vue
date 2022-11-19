@@ -130,7 +130,7 @@ export default {
 			return this.$store.getters.extractedColors
 		},
 		link() {
-			return 'urlGoesHere/form/' + this.$route.params.id
+			return 'url/' + this.$route.params.id
 		},
 	},
 
